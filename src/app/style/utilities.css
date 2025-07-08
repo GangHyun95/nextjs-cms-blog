@@ -1,0 +1,18 @@
+@layer utilities {
+    .container {
+        margin-inline: auto;
+    }
+
+    #header .container {
+        max-width: 1140px;
+        padding-inline: 0.75rem;
+
+        @media (min-width: 992px) {
+            margin-top: 0px;
+        }
+
+        @media (min-width: 1700px) {
+            max-width: 1320px;
+        }
+    }
+}
