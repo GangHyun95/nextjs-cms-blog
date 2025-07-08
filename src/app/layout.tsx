@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 
-import Navbar from '@/components/navbar';
 import './style/globals.css';
 
 const suit = localFont({
@@ -23,10 +22,7 @@ export default function RootLayout({
     return (
         <html lang='en'>
             <body className={`${suit.variable} antialiased`}>
-                <Navbar />
-                <main>
-                    {children}
-                </main>
+                {children}
             </body>
         </html>
     );

@@ -6,7 +6,7 @@ import PageHoverMenu from './PageHoverMenu';
 
 export default function Navbar() {
     return (
-        <header id='header' className='flex flex-col h-14 lg:h-16'>
+        <header id='header' className='fixed inset-0 flex flex-col h-14 lg:h-16'>
             <nav className='container flex-1 flex items-center'>
                 <HamburgerButton />
                 <div className='flex-1 flex justify-center h-full'>
