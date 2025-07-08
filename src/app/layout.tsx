@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 
+import Providers from '@/app/providers';
 import './style/globals.css';
 
 const suit = localFont({
@@ -22,7 +23,7 @@ export default function RootLayout({
     return (
         <html lang='en'>
             <body className={`${suit.variable} antialiased`}>
-                {children}
+                <Providers>{children}</Providers>
             </body>
         </html>
     );

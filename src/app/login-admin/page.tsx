@@ -22,7 +22,7 @@ export default function LoginAdminPage() {
                         <Image src='/logo/logo.png' alt='Logo' fill className='object-contain'/>
                     </div>
 
-                    <h1 className='mb-10 text-4xl font-bold sm:text-6xl lg:my-12'>
+                    <h1 className='mb-10 text-4xl font-bold sm:text-6xl lg:mb-12'>
                         관리자 로그인
                     </h1>
                     <h2 className='mb-5 text-2xl text-muted-foreground font-bold sm:text-3xl lg:mb-8'>
