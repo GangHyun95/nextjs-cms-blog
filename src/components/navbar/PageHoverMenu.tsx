@@ -14,7 +14,7 @@ export default function PageHoverMenu() {
 
             <HoverCardContent
                 side='bottom'
-                align='start'
+                align='center'
                 className='w-52 p-0 rounded shadow-none bg-background border'
             >
                 <ul className='space-y-1 text-sm'>

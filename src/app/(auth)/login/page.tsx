@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default async function LoginAdminPage() {
     return (
-        <main className='flex flex-col h-screen'>
+        <div className='flex flex-col h-screen'>
             <div className='flex-1 flex'>
                 <div className='hidden flex-1 flex-col justify-center lg:flex'>
                     <div className='relative h-full max-w-full'>
@@ -35,6 +35,6 @@ export default async function LoginAdminPage() {
                     </section>
                 </div>
             </div>
-        </main>
+        </div>
     );
 }
