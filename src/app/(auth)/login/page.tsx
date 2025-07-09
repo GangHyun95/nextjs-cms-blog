@@ -1,7 +1,7 @@
-import LoginForm from '@/components/LoginForm';
+import LoginForm from '@/components/auth/LoginForm';
 import Image from 'next/image';
 
-export default function LoginAdminPage() {
+export default async function LoginAdminPage() {
     return (
         <main className='flex flex-col h-screen'>
             <div className='flex-1 flex'>
@@ -11,15 +11,17 @@ export default function LoginAdminPage() {
                             src='/logo/logo.png'
                             alt='Logo'
                             fill
+                            priority
                             className='object-contain'
+                            sizes='(min-width: 1024px) 57vw'
                         />
                     </div>
 
                 </div>
-                
+
                 <div className='mx-auto flex min-w-[45vw] max-w-2xl flex-col p-9 lg:justify-center'>
-                    <div className='relative block h-32 max-w-full lg:hidden'>
-                        <Image src='/logo/logo.png' alt='Logo' fill className='object-contain'/>
+                    <div className='flex justify-center lg:hidden'>
+                        <Image src='/logo/logo.png' alt='Logo' width={128} height={128} className='object-contain'/>
                     </div>
 
                     <h1 className='mb-10 text-4xl font-bold sm:text-6xl lg:mb-12'>

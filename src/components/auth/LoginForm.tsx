@@ -8,15 +8,15 @@ import { useLogin } from '@/hooks/useAuth';
 import { useAppDispatch } from '@/store/hooks';
 import { setAccessToken } from '@/store/slices/authSlice';
 import { cn, validate } from '@/lib/utils';
+import { InlineSpinner } from '../Spinner';
 
-import { InlineSpinner } from './Spinner';
 
 export default function LoginForm() {
     const router = useRouter();
     const [form, setForm] = useState({ email: '', password: '' });
-    const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+    const [errors, setErrors] = useState<{ email?: string; password?: string; form?: string; }>({});
 
-    const { login, isLoggingIn, error } = useLogin();
+    const { login, isLoggingIn } = useLogin();
     const dispatch = useAppDispatch();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,15 +26,19 @@ export default function LoginForm() {
     
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        
         const err = validate(form);
         if (err.email || err.password) return setErrors(err);
 
         setErrors({});
         
-        const data = await login(form);
-        dispatch(setAccessToken({ accessToken: data.accessToken }));
-        router.push('/admin');
+        try {
+            const { accessToken } = await login(form);
+            dispatch(setAccessToken({ accessToken }));
+            router.push('/admin');
+        } catch (error) {
+            setErrors({ form: (error as Error).message});
+            
+        }
     };
 
     return (
@@ -45,9 +49,10 @@ export default function LoginForm() {
                 value={form.email}
                 onChange={handleChange}
                 placeholder='이메일'
+                autoComplete='username'
                 className={cn(
                     'border px-4 py-2 rounded-md text-foreground placeholder:text-muted-foreground',
-                    errors.email || error ? 'border-red-500' : 'border-input'
+                    errors.email || errors.form ? 'border-red-500' : 'border-input'
                 )}
                 required
             />
@@ -59,15 +64,16 @@ export default function LoginForm() {
                 value={form.password}
                 onChange={handleChange}
                 placeholder='비밀번호'
+                autoComplete='current-password'
                 className={cn(
                     'border px-4 py-2 rounded-md text-foreground placeholder:text-muted-foreground',
-                    errors.password || error ? 'border-red-500' : 'border-input'
+                    errors.password || errors.form ? 'border-red-500' : 'border-input'
                 )}
                 required
             />
             {errors.password && <p className='mt-1 text-sm text-red-500'>{errors.password}</p>}
 
-            {error && <p className='mt-1 text-sm text-red-500'>{error}</p>}
+            {errors.form && <p className='mt-1 text-sm text-red-500'>{errors.form}</p>}
 
             <Button type='submit' size='lg' disabled={isLoggingIn}>
                 {isLoggingIn ? (
@@ -78,6 +84,9 @@ export default function LoginForm() {
                 ) : (
                     <span>로그인</span>
                 )}
+            </Button>
+            <Button type='button' variant='outline' size='lg' onClick={() => router.push('/')}>
+                블로그 홈으로 가기
             </Button>
         </form>
     );

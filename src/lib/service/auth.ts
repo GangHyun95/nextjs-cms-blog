@@ -1,14 +1,37 @@
-export async function login({ email, password }: { email: string; password: string }): Promise<{ accessToken: string }> {
-    const res = await fetch('/api/login', {
+type ApiResponse<T> = {
+    success: boolean;
+    data: T,
+    message: string;
+};
+
+export async function login({ email, password }: { email: string; password: string }): Promise<ApiResponse<{ accessToken: string }>> {
+    const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
     });
 
-    if (!res.ok) {
-        const { error } = await res.json();
-        throw new Error(error);
+    const data = await res.json();
+
+    if (!data.success) {
+        throw new Error(data.message);
     }
 
-    return res.json();
+    return data;
 }
+
+
+export async function refreshSession(): Promise<ApiResponse<{ accessToken: string }>> {
+    const res = await fetch('/api/auth/refresh', {
+        method: 'POST',
+        credentials: 'include'
+    });
+
+    const data = await res.json();
+
+    if (!data.success) {
+        throw new Error(data.message);
+    }
+
+    return data;
+};
