@@ -1,11 +1,10 @@
+import SidebarContent from './SidebarContent';
+
 export default function Sidebar() {
     return (
-        <aside className='grow flex flex-col items-end'>
-            <div className='relative flex w-60'>
-                <div className='fixed top-0 mt-16'>
-                    sidebar
-                </div>
-            </div>
+        <aside className='grow z-20 hidden flex-col shadow-[4px_0_8px_-4px_rgba(0,0,0,0.1)] md:flex'>
+            <SidebarContent />
         </aside>
     );
 }
+

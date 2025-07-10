@@ -6,9 +6,12 @@ import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 
-export default function HamburgerButton() {
-    const [open, setOpen] = useState(false);
+type Props = {
+    open?: boolean;
+    onClick?: () => void;
+}
 
+export default function HamburgerButton({ open, onClick }: Props) {
     return (
         <TooltipProvider>
             <Tooltip>
@@ -17,7 +20,7 @@ export default function HamburgerButton() {
                         variant='ghost'
                         size='icon'
                         className='2xl:hidden relative rounded-full size-11'
-                        onClick={() => setOpen(prev => !prev)}
+                        onClick={onClick}
                     >
                         <span
                             className={cn(

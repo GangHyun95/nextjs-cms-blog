@@ -3,6 +3,10 @@
         margin-inline: auto;
     }
 
+    .w-guide {
+        width: var(--guide-width);
+    }
+
     .underline-from-center {
         position: relative;
         cursor: pointer;

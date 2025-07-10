@@ -12,11 +12,11 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     }
     
     return (
-        <div className='min-w-0 min-h-screen flex flex-col'>
+        <div className='min-h-screen flex flex-col'>
             <div className='flex flex-1'>
-                <Navbar />
                 <Sidebar />
                 <main className='w-full flex flex-col'>
+                    <Navbar />
                     <div className='grow w-full flex flex-col'>
                         {children}
                     </div>
