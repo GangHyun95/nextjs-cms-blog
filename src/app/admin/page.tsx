@@ -1,15 +1,13 @@
-'use client';
-
-import { useAppSelector } from '@/store/hooks';
+import LineChart from '@/components/admin/chart/LineChart';
+import StatOverview from '@/components/admin/StatOverview';
 
 export default function AdminPage() {
-    const accessToken = useAppSelector(state => state.auth.accessToken);
-
     return (
-        <div>
-            <div className='h-screen bg-red-500'></div>
-            <div className='h-screen bg-red-500'></div>
-            <div className='h-screen bg-red-500'></div>
+        <div className='h-screen py-8'>
+            <StatOverview />
+            <section className='bg-white border rounded-xs mt-1 p-5' style={{ width: '100%', height: '300px' }}>
+                <LineChart />
+            </section>
         </div>
     );
 }

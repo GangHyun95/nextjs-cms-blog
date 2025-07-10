@@ -1,0 +1,75 @@
+@layer components {
+    .chart-tooltip {
+        position: absolute;
+        z-index: 100;
+        transition: all 150ms ease;
+        opacity: 1;
+        pointer-events: none;
+    }
+
+    .chart-tooltip__content {
+        display: flex;
+        background-color: var(--color-background);
+        border: 1px solid var(--color-border);
+        padding-block: 8px;
+    }
+
+    .chart-tooltip__item {
+        padding-inline: 8px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .chart-tooltip__label {
+        font-size: 0.6875rem;
+        color: var(--color-muted-foreground);
+        margin-bottom: 4px;
+    }
+
+    .chart-tooltip__value-wrapper {
+        display: flex;
+        gap: 4px;
+    }
+
+    .chart-tooltip__value {
+        font-size: 1.25rem;
+        font-weight: bold;
+    }
+
+    .chart-tooltip__diff-wrapper {
+        display: flex;
+        align-items: center;
+        align-self: flex-start;
+        padding-block-start: 2px;
+        font-size: 0.75rem;
+        font-weight: bold;
+        color: var(--color-muted-foreground);
+    }
+
+    .chart-tooltip__diff {
+        font-size: inherit;
+        color: inherit;
+    }
+
+    .chart-tooltip__divider {
+        width: 1px;
+        background-color: var(--color-border);
+        align-self: stretch;
+    }
+
+    .chart-tooltip__change {
+        font-size: 0;
+        margin-right: 2px;
+        font-size: 0.5rem;
+    }
+
+    .chart-tooltip__change--up::before {
+        content: '▲';
+        color: var(--color-red-500);
+    }
+
+    .chart-tooltip__change--down::before {
+        content: '▼';
+        color: var(--color-blue-500);
+    }
+}

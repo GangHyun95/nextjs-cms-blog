@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import './utilities.css';
+@import './chart.css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -46,7 +47,6 @@
 }
 
 :root {
-    --guide-width: 15rem;
     --radius: 0.625rem;
     --background: oklch(1 0 0);
     --foreground: oklch(0.141 0.005 285.823);
@@ -115,6 +115,22 @@
     --sidebar-ring: oklch(0.552 0.016 285.938);
 }
 
+:root {
+    --guide-width: 15rem;
+    --content-width: min(calc(100vw - var(--guide-width) - 12px - 200px), 1478px);
+}
+
+@media (max-width: 1280px) {
+    :root {
+        --content-width: min(calc(100vw - var(--guide-width) - 112px - 12px), 1478px);
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --content-width: calc(100vw - 32px);
+    }
+}
 @layer base {
     * {
         @apply border-border outline-ring/50;
