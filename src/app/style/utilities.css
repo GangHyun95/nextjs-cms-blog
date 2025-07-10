@@ -7,6 +7,10 @@
         width: var(--guide-width);
     }
 
+    .w-content {
+        width: var(--content-width);
+    }
+
     .underline-from-center {
         position: relative;
         cursor: pointer;

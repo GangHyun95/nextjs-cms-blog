@@ -1,5 +1,5 @@
-import Navbar from '@/components/admin/navbar';
-import Sidebar from '@/components/admin/sidebar';
+import Navbar from '@/components/admin/layout/navbar';
+import Sidebar from '@/components/admin/layout/sidebar';
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation';
 
@@ -15,9 +15,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         <div className='min-h-screen flex flex-col'>
             <div className='flex flex-1'>
                 <Sidebar />
-                <main className='w-full flex flex-col'>
+                <main className='w-full flex flex-col bg-muted'>
                     <Navbar />
-                    <div className='grow w-full flex flex-col'>
+                    <div className='grow w-full flex flex-col w-content m-auto'>
                         {children}
                     </div>
                 </main>

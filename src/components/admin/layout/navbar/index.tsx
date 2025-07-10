@@ -15,7 +15,7 @@ export default function Navbar() {
                     <div className='flex items-center absolute md:hidden'>
                         <HamburgerButton open={sidebarOpen} onClick={() => setSidebarOpen(prev => !prev)} />
                     </div>
-                    <div className='flex-1 flex justify-center h-full'>
+                    <div className='flex-1 flex justify-center h-full pl-11 md:pl-0'>
                         <Link href='/admin' className='h-full inline-flex items-center font-semibold'>
                             <span className='underline-from-center'>Hyun's Dev 👨‍💻</span>
                         </Link>
