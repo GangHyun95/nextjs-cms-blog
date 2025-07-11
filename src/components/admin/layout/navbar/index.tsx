@@ -10,7 +10,7 @@ export default function Navbar() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     return (
         <>
-            <header className='sticky z-10 top-0 flex flex-col h-14 lg:h-16 bg-white/85 backdrop-blur-md'>
+            <header className='sticky z-10 top-0 flex flex-col h-14 lg:h-16 bg-background/85 backdrop-blur-md'>
                 <nav className='grow flex items-center px-4'>
                     <div className='flex items-center absolute md:hidden'>
                         <HamburgerButton open={sidebarOpen} onClick={() => setSidebarOpen(prev => !prev)} />

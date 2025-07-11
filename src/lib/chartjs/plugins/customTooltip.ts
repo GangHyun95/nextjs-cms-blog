@@ -60,7 +60,18 @@ export function customTooltip({ chart, tooltip }: { chart: Chart; tooltip: Toolt
     html += '</div>';
 
     tooltipEl.innerHTML = html;
-    tooltipEl.style.left = `${posX + x}px`;
-    tooltipEl.style.top = `${posY + y}px`;
+
+    const tooltipWidth = tooltipEl.offsetWidth;
+    const tooltipHeight = tooltipEl.offsetHeight;
+
+    let left = posX + x;
+    let top = posY + y - tooltipHeight - 8;
+
+    if (left + tooltipWidth > window.innerWidth - 8) {
+        left = left - tooltipWidth;
+    }
+
+    tooltipEl.style.left = `${left}px`;
+    tooltipEl.style.top = `${top}px`;
     tooltipEl.style.opacity = '1';
 }
