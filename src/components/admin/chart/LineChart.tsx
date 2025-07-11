@@ -45,13 +45,13 @@ export default function LineChart() {
             {
                 label: '일간 조회수',
                 data: labels.map(() => Math.floor(Math.random() * 50)),
-                borderColor: '#f87171',
+                borderColor: '#6366f1',
                 pointBackgroundColor: '#ffffff',
                 tension: 0.15,
                 pointRadius: 4,
                 pointBorderWidth: 2,
-                pointHoverBackgroundColor: '#f87171',
-                pointHoverBorderColor: '#f87171'
+                pointHoverBackgroundColor: '#6366f1',
+                pointHoverBorderColor: '#6366f1'
             },
             {
                 label: '일간 방문자',
@@ -132,7 +132,7 @@ export default function LineChart() {
     };
 
     return (
-        <div className='relative w-full h-[332px] bg-background pb-12 border rounded-xs mt-1 px-8'>
+        <>
             <Line ref={chartRef} key={daysToShow} options={options} data={data} className='mt-3' />
             <ChartXAxis
                 labels={labels}
@@ -140,6 +140,6 @@ export default function LineChart() {
                 onHover={handleHover}
                 onLeave={handleLeave}
             />
-        </div>
+        </>
     );
 }

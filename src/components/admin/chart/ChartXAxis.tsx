@@ -27,7 +27,7 @@ export default function ChartXAxis({ labels, hoveredIndex, onHover, onLeave }: P
     });
 
     return (
-        <div className='absolute bottom-0 left-0 right-0 flex justify-between text-xs text-muted-foreground px-8'>
+        <div className='absolute bottom-0 left-0 right-0 flex justify-between text-muted-foreground px-8'>
             {xLabels.map(({ label, isToday, showMonth, currentMonth, index }) => (
                 <div
                     key={index}
@@ -39,15 +39,15 @@ export default function ChartXAxis({ labels, hoveredIndex, onHover, onLeave }: P
                         variant='ghost'
                         size='icon'
                         className={cn(
-                            'cursor-default text-[11px] w-6 h-6 rounded-full',
-                            hoveredIndex === index ? 'bg-red-400 text-background' : '',
-                            'hover:bg-red-400 hover:text-background'
+                            'cursor-default text-tiny! w-6 h-6 rounded-full',
+                            hoveredIndex === index ? 'bg-primary text-background' : '',
+                            'hover:bg-primary hover:text-background',
                         )}
                     >
                         {isToday ? '오늘' : label.getDate()}
                     </Button>
                     {showMonth && (
-                        <span className='text-[10px] text-muted-foreground cursor-default'>
+                        <span className='text-tiny text-muted-foreground cursor-default'>
                             {currentMonth + 1}월
                         </span>
                     )}

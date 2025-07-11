@@ -60,10 +60,8 @@ export default function SidebarNav() {
                                     <Link
                                         href={href}
                                         className={cn(
-                                            'flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors',
-                                            isActive
-                                                ? 'bg-muted text-primary'
-                                                : 'hover:bg-muted text-muted-foreground'
+                                            'flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors hover:bg-muted',
+                                            isActive ? 'text-primary' : 'text-muted-foreground'
                                         )}
                                     >
                                         <Icon className='w-5 h-5' />
