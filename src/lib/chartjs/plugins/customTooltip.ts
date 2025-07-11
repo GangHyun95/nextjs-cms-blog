@@ -5,7 +5,7 @@ let tooltipEl: HTMLDivElement | null = null;
 export function customTooltip({ chart, tooltip }: { chart: Chart; tooltip: TooltipModel<'line'> }) {
     if (!chart.canvas.parentNode) return;
 
-    if (!tooltipEl) {
+    if (!tooltipEl || !chart.canvas.parentNode.contains(tooltipEl)) {
         tooltipEl = document.createElement('div');
         tooltipEl.className = 'chart-tooltip';
         chart.canvas.parentNode.appendChild(tooltipEl);

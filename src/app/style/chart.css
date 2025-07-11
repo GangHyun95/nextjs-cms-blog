@@ -11,7 +11,7 @@
         display: flex;
         background-color: var(--color-background);
         border: 1px solid var(--color-border);
-        padding-block: 8px;
+        padding-block: 4px;
     }
 
     .chart-tooltip__item {
@@ -24,7 +24,6 @@
         font-size: 0.6875rem;
         white-space: nowrap;
         color: var(--color-muted-foreground);
-        margin-bottom: 4px;
     }
 
     .chart-tooltip__value-wrapper {
