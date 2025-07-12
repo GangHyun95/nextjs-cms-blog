@@ -28,8 +28,8 @@ const navSections: NavSection[] = [
         title: '콘텐츠',
         items: [
             { label: '글관리', href: '/admin/manage/posts', icon: FileText },
-            { label: '카테고리관리', href: '/admin/manage/categories', icon: Folders },
             { label: '댓글 관리', href: '/admin/manage/comments', icon: MessageCircle },
+            { label: '카테고리관리', href: '/admin/manage/categories', icon: Folders },
             { label: '방명록 관리', href: '/admin/manage/guestbook', icon: BookOpenText },
         ],
     },

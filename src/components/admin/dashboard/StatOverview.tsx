@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import Card from '@/components/ui/card';
 import { BarChartBig } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
@@ -17,7 +18,7 @@ const visitors = [
 
 export default function StatOverview() {
     return (
-        <section className='flex flex-col items-stretch gap-6 bg-background px-8 py-5 border rounded-xs lg:flex-row lg:items-center'>
+        <Card as='section' padding='md' className='flex flex-col items-stretch gap-6 lg:flex-row lg:items-center'>
             <div className='flex gap-x-6 flex-1'>
                 {views.map((item, i) => (
                     <div key={i} className='flex-1 flex flex-col gap-y-1'>
@@ -38,13 +39,13 @@ export default function StatOverview() {
                 ))}
             </div>
 
-            <Button asChild variant='outline' className='rounded-xs self-end lg:self-auto'>
+            <Button asChild variant='outline' className='self-end lg:self-auto'>
                 <Link href='/admin/stats/visits'>
                     <BarChartBig className='h-4 w-4 mr-1' />
                     <span>통계</span>
                 </Link>
             </Button>
-        </section>
+        </Card>
     );
 }
 

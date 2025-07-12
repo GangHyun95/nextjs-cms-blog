@@ -1,9 +1,10 @@
 import React from 'react';
 import PostActionButtons from './PostActionButtons';
+import Card from '@/components/ui/card';
 
 export default function PostListItem() {
     return (
-        <li className='flex items-center px-6 py-4 gap-4 border-b'>
+        <Card padding='sm' as='li' className='flex items-center gap-4 border-0 border-b'>
             <div className='inline-block size-4'>
                 <input type='checkbox' className='checkbox-custom' />
             </div>
@@ -16,7 +17,7 @@ export default function PostListItem() {
                 </div>
             </div>
             <PostActionButtons />
-        </li>
+        </Card>
     );
 }
 

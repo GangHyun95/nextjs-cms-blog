@@ -1,8 +1,9 @@
+import Card from '@/components/ui/card';
 import React from 'react';
 
 export default function PopularPostCard() {
     return (
-        <div className='flex-[2] p-6 border rounded-xs bg-background 2xl:grow-1 min-w-0'>
+        <Card padding='uniform' className='flex-[2] 2xl:grow-1 min-w-0'>
             <h3 className='text-sm font-bold text-muted-foreground mb-4'>인기 글</h3>
             <ul className='flex flex-col space-y-3'>
                 {Array.from({ length: 10 }, (_, i) => (
@@ -12,7 +13,7 @@ export default function PopularPostCard() {
                     </li>
                 ))}
             </ul>
-        </div>
+        </Card>
     );
 }
 

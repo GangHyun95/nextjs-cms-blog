@@ -26,7 +26,7 @@ export default function SidebarContent() {
                             priority
                         />
                     </div>
-                    <Button size='lg' className='w-full rounded-xs'>
+                    <Button size='lg' className='w-full'>
                         글 쓰기
                     </Button>
 

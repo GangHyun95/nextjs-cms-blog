@@ -1,3 +1,5 @@
+import Card from '@/components/ui/card';
+
 const deviceStats = [
     { label: '모바일', value: '65.3%', barColor: 'bg-primary' },
     { label: '데스크탑', value: '34.7%', barColor: 'bg-chart-2' }
@@ -11,7 +13,7 @@ const browserStats = [
 
 export default function TrafficEnvironmentCard() {
     return (
-        <div className='p-6 border rounded-xs bg-background'>
+        <Card padding='uniform'>
             <h3 className='text-sm font-bold text-muted-foreground mb-4'>접속 환경</h3>
 
             <div className='mb-4'>
@@ -47,6 +49,6 @@ export default function TrafficEnvironmentCard() {
                     ))}
                 </ul>
             </div>
-        </div>
+        </Card>
     );
 }

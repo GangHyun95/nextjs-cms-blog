@@ -1,3 +1,5 @@
+import Card from '@/components/ui/card';
+
 const referralStats = [
     { label: '검색', value: '74.7%', barColor: 'bg-primary' },
     { label: 'SNS', value: '11.3%', barColor: 'bg-chart-2' },
@@ -6,7 +8,7 @@ const referralStats = [
 
 export default function ReferralChannelCard() {
     return (
-        <div className='p-6 border rounded-xs bg-background'>
+        <Card padding='uniform'>
             <h3 className='text-sm font-bold text-muted-foreground mb-4'>유입 채널</h3>
             <ul className='flex flex-col space-y-2'>
                 {referralStats.map((item, i) => (
@@ -21,6 +23,6 @@ export default function ReferralChannelCard() {
                     </li>
                 ))}
             </ul>
-        </div>
+        </Card>
     );
 }
