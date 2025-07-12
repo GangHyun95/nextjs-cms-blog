@@ -18,9 +18,9 @@ export function InlineSpinner() {
 
 export function AdminLoadingSpinner() {
     return (
-        <div className="h-full flex flex-col items-center justify-center gap-2 text-primary">
-            <LoaderCircle className="size-8 animate-spin" />
-            <p className="text-xs">데이터를 불러오는 중...</p>
+        <div className='h-full flex flex-col items-center justify-center gap-2 text-primary'>
+            <LoaderCircle className='size-8 animate-spin' />
+            <p className='text-xs'>데이터를 불러오는 중...</p>
         </div>
     );
 }

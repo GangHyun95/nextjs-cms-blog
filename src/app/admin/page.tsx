@@ -20,7 +20,7 @@ export default function AdminPage() {
             </section>
             <section className='mt-10'>
                 <h2 className='text-xl mb-2'>최근 글</h2>
-                <div className='flex gap-2'>
+                <div className='flex flex-col gap-2 lg:flex-row'>
                     <RecentPostCard />
                     <RecentPostCard />
                     <RecentPostCard />

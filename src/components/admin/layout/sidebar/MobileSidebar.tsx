@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { cn } from '@/lib/utils';
 import SidebarContent from './SidebarContent';
 
@@ -10,6 +11,12 @@ type Props = {
 };
 
 export default function MobileSidebar({ open, onClose }: Props) {
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
     useEffect(() => {
         if (!open) return;
 
@@ -25,7 +32,10 @@ export default function MobileSidebar({ open, onClose }: Props) {
             document.body.style.overflow = '';
         };
     }, [open, onClose]);
-    return (
+
+    if (!mounted) return null;
+
+    return createPortal(
         <div
             className={cn(
                 'fixed inset-0 md:hidden',
@@ -48,6 +58,7 @@ export default function MobileSidebar({ open, onClose }: Props) {
             >
                 <SidebarContent />
             </aside>
-        </div>
+        </div>,
+        document.body
     );
 }

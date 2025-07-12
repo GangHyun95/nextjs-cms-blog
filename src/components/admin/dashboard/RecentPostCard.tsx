@@ -13,7 +13,7 @@ export default function RecentPostCard() {
             </p>
             <div className='flex items-center gap-1 text-muted-foreground mt-12'>
                 <span className='text-xs'>댓글 0</span>
-                <div className='w-0.5 h-0.5 rounded-full bg-muted-foreground' />
+                <div className='dot'/>
                 <span className='text-xs'>좋아요 0</span>
             </div>
         </div>

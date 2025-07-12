@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { BarChartBig, BookOpenText, FileText, Folders, LayoutDashboard, MessageCircle, Route } from 'lucide-react';
+import { BarChartBig, BookOpenText, FileText, Folders, LayoutDashboard, MessageCircle, Route, UserCog } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
@@ -38,6 +38,12 @@ const navSections: NavSection[] = [
         items: [
             { label: '방문 통계', href: '/admin/stats/visits', icon: BarChartBig },
             { label: '유입 경로', href: '/admin/stats/referrers', icon: Route },
+        ],
+    },
+    {
+        title: '설정',
+        items: [
+            { label: '관리자 계정 관리', href: '/admin/settings/users', icon: UserCog },
         ],
     },
 ];
