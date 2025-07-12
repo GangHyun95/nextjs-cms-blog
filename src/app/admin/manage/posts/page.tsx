@@ -8,7 +8,7 @@ import Card from '@/components/ui/card';
 export default function PostsPage() {
     return (
         <div className='py-6'>
-            <div className='flex flex-col gap-4 lg:items-center lg:flex-row'>
+            <div className='flex flex-col gap-4 mb-6 lg:items-center lg:flex-row'>
                 <div className='flex-1'>
                     <h1 className='text-xl font-semibold'>게시글 관리</h1>
                     <p className='text-sm text-muted-foreground mt-1'>
@@ -23,7 +23,7 @@ export default function PostsPage() {
                 </div>
             </div>
 
-            <div className='border border-b-0 rounded-xs mt-2'>
+            <div className='border border-b-0 rounded-xs'>
                 <Card padding='sm' className='border-0 border-b flex justify-between items-center bg-slate-50'>
                     <div className='flex items-center gap-4'>
                         <div className='flex items-center size-4'>
