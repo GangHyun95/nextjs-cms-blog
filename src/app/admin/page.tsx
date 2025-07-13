@@ -6,8 +6,10 @@ export default function AdminPage() {
         <div className='min-h-screen py-8'>
             <StatOverview />
 
-            <Card as='section' padding='lg' className='relative mt-1'>
-                <LineChart />
+            <Card as='section' padding='md' className='mt-1 pb-1'>
+                <div className='relative'>
+                    <LineChart />
+                </div>
             </Card>
             <section className='mt-10'>
                 <h2 className='text-xl mb-2'>최근 7일 통계</h2>

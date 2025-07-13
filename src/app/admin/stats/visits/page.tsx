@@ -8,7 +8,7 @@ export default function VisitStatsPage() {
         <div className='py-8'>
             <StatOverview />
 
-            <Card as='section' padding='lg' className='relative mt-1 pt-7'>
+            <Card as='section' padding='md' className='relative mt-1'>
                 <div className='flex'>
                     <h3 className='text-xl font-semibold flex-1'>2025.07</h3>
                     <div className='flex gap-4'>
@@ -24,7 +24,9 @@ export default function VisitStatsPage() {
                         </div>
                     </div>
                 </div>
-                <BarChart />
+                <div className='relative border-b'>
+                    <BarChart />
+                </div>
             </Card>
         </div>
     );

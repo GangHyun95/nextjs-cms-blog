@@ -70,7 +70,7 @@ export default function LineChart() {
     const options: ChartOptions<'line'> = useMemo(() => ({
         responsive: true,
         maintainAspectRatio: false,
-        layout: { padding: { bottom: 8 } },
+        // layout: { padding: { bottom: 44.5 } },
         interaction: { mode: 'index', intersect: false },
         plugins: {
             legend: { display: false },
@@ -133,7 +133,7 @@ export default function LineChart() {
 
     return (
         <>
-            <section className='relative w-full h-80'>
+            <section className='w-full h-80 pb-[52.5px]'>
                 <Line ref={chartRef} data={data} options={options} />
             </section>
             <ChartXAxis

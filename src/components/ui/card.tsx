@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils';
 
 type Props = {
     as?: React.ElementType;
-    padding?: 'sm' | 'md' | 'lg' | 'uniform';
+    padding?: 'sm' | 'md' | 'uniform';
     className?: string;
     children: React.ReactNode;
 };
@@ -17,8 +17,7 @@ export default function Card({
 
     const paddingClass = {
         sm: 'px-6 py-4',
-        md: 'px-8 py-5',
-        lg: 'px-8 py-12',
+        md: 'px-8 py-6',
         uniform: 'p-6',
     }[padding];
 

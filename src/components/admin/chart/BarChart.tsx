@@ -77,7 +77,6 @@ export default function BarChart() {
     const options = useMemo<ChartOptions<'bar'>>(() => ({
         responsive: true,
         maintainAspectRatio: false,
-        layout: { padding: { bottom: 8 } },
         interaction: { mode: 'index', intersect: false },
         plugins: {
             legend: { display: false },
@@ -128,7 +127,7 @@ export default function BarChart() {
     };
     return (
         <>
-            <section className='relative w-full h-80 pt-5'>
+            <section className='w-full h-80 pb-[52.5px] px-8'>
                 <Bar ref={chartRef} data={data} options={options} />
             </section>
             <ChartXAxis
@@ -136,6 +135,7 @@ export default function BarChart() {
                 hoveredIndex={hoveredIndex}
                 onHover={handleHover}
                 onLeave={handleLeave}
+                withArrows={true}
             />
         </>
     );
