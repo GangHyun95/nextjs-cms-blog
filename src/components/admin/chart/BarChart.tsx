@@ -6,7 +6,6 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Chart, ChartOptions } from 'chart.js';
 import { customTooltip } from '@/lib/chartjs/plugins/customTooltip';
 import ChartXAxis from './ChartXAxis';
-import { Button } from '@/components/ui/button';
 
 export default function BarChart() {
     const chartRef = useRef<Chart<'bar'> | null>(null);
@@ -21,7 +20,7 @@ export default function BarChart() {
             } else if (width < 1280) {
                 setDaysToShow(14);
             } else {
-                setDaysToShow(30);
+                setDaysToShow(21);
             }
         };
 
