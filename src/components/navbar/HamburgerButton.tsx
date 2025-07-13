@@ -1,5 +1,3 @@
-'use client';
-
 import { cn } from '@/lib/utils';
 import TooltipIconButton from '../common/TooltipIconButton';
 

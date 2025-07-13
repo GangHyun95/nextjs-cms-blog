@@ -1,25 +1,25 @@
 import { Search } from 'lucide-react';
+
+import AdminPageHeader from '@/components/admin/common/AdminPageHeader';
+import UserNoteItem from '@/components/admin/common/UserNoteItem';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
-import CommentListItem from '@/components/admin/comments/CommentListItem';
 
 export default function CommentsPage() {
     return (
         <div className='py-6'>
-            <div className='flex flex-col gap-4 mb-6 lg:items-center lg:flex-row'>
-                <div className='flex-1'>
-                    <h1 className='text-xl font-semibold'>댓글 관리</h1>
-                    <p className='text-sm text-muted-foreground mt-1'>
-                        작성된 댓글을 확인하고 삭제할 수 있습니다.
-                    </p>
-                </div>
-                <div className='flex lg:max-w-3xs h-full border'>
-                    <input type='text' className='flex-1 bg-background px-4 focus:outline-0' placeholder='검색' />
-                    <Button variant='outline' size='icon'  className='h-10 text-muted-foreground border-0'>
-                        <Search className='size-4' />
-                    </Button>
-                </div>
-            </div>
+            <AdminPageHeader
+                title='댓글 관리'
+                description='작성된 댓글을 확인하고 삭제할 수 있습니다.'
+                right={
+                    <div className='flex lg:max-w-3xs h-full border'>
+                        <input type='text' className='flex-1 bg-background px-4 focus:outline-0' placeholder='검색' />
+                        <Button variant='outline' size='icon'  className='h-10 text-muted-foreground border-0'>
+                            <Search className='size-4' />
+                        </Button>
+                    </div>
+                }
+            />
 
             <div className='border border-b-0 rounded-xs'>
                 <Card padding='sm' className='border-0 border-b flex justify-between items-center bg-slate-50'>
@@ -35,7 +35,7 @@ export default function CommentsPage() {
                 </Card>
                 
                 <ul className='bg-background'>
-                    <CommentListItem />
+                    <UserNoteItem type='comment' />
                 </ul>
             </div>
         </div>

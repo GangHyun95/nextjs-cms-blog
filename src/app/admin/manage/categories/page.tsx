@@ -1,6 +1,7 @@
+import AdminPageHeader from '@/components/admin/common/AdminPageHeader';
+import CategoryItem from '@/components/admin/categories/CategoryItem';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
-import CategoryItem from '@/components/admin/categories/CategoryItem';
 
 const dummy = [
     {
@@ -33,19 +34,16 @@ const dummy = [
 export default function CategoriesPage() {
     return (
         <div className='py-6'>
-            <div className='flex flex-col gap-4 mb-6 lg:items-center lg:flex-row'>
-                <div className='flex-1'>
-                    <h1 className='text-xl font-semibold'>카테고리 관리</h1>
-                    <p className='text-sm text-muted-foreground mt-1'>
-                        드래그 앤 드롭으로 카테고리 순서를 변경할 수 있습니다.
-                    </p>
-                </div>
-                <div className='flex gap-1'>
-                    <Button variant='outline' size='sm'>전체 펼치기</Button>
-                    <Button variant='outline' size='sm'>전체 접기</Button>
-                </div>
-            </div>
-
+            <AdminPageHeader
+                title='카테고리 관리'
+                description='드래그 앤 드롭으로 카테고리 순서를 변경할 수 있습니다.'
+                right={
+                    <div className='flex gap-1'>
+                        <Button variant='outline' size='sm'>전체 펼치기</Button>
+                        <Button variant='outline' size='sm'>전체 접기</Button>
+                    </div>
+                }
+            />
             <Card padding='sm' className='flex flex-col space-y-4 bg-slate-200'>
                 {dummy.map((group) => (
                     <section key={group.id} className='border'>
