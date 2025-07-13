@@ -1,7 +1,10 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { BarChartBig } from 'lucide-react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import React from 'react';
 
 const views = [
@@ -17,6 +20,7 @@ const visitors = [
 ];
 
 export default function StatOverview() {
+    const pathname = usePathname();
     return (
         <Card as='section' padding='md' className='flex flex-col items-stretch gap-6 lg:flex-row lg:items-center'>
             <div className='flex gap-x-6 flex-1'>
@@ -39,12 +43,14 @@ export default function StatOverview() {
                 ))}
             </div>
 
-            <Button asChild variant='outline' className='self-end lg:self-auto'>
-                <Link href='/admin/stats/visits'>
-                    <BarChartBig className='h-4 w-4 mr-1' />
-                    <span>통계</span>
-                </Link>
-            </Button>
+            {pathname === '/admin' && (
+                <Button asChild variant='outline' className='self-end lg:self-auto'>
+                    <Link href='/admin/stats/visits'>
+                        <BarChartBig className='h-4 w-4 mr-1' />
+                        <span>통계</span>
+                    </Link>
+                </Button>
+            )}
         </Card>
     );
 }

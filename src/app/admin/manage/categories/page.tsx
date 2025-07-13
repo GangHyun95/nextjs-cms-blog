@@ -46,7 +46,7 @@ export default function CategoriesPage() {
             />
             <Card padding='sm' className='flex flex-col space-y-4 bg-slate-200'>
                 {dummy.map((group) => (
-                    <section key={group.id} className='border'>
+                    <section key={group.id}>
                         <CategoryItem label={group.label} isParent />
                         {group.children.map(child => (
                             <CategoryItem key={child.id} label={child.label} />

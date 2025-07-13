@@ -1,14 +1,15 @@
 'use client';
 
 import '@/lib/chartjs';
-import { Line } from 'react-chartjs-2';
-import { useMemo, useEffect, useRef, useState } from 'react';
-import type { ChartOptions, Chart } from 'chart.js';
+import { Bar } from 'react-chartjs-2';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Chart, ChartOptions } from 'chart.js';
 import { customTooltip } from '@/lib/chartjs/plugins/customTooltip';
 import ChartXAxis from './ChartXAxis';
+import { Button } from '@/components/ui/button';
 
-export default function LineChart() {
-    const chartRef = useRef<Chart<'line'> | null>(null);
+export default function BarChart() {
+    const chartRef = useRef<Chart<'bar'> | null>(null);
     const [daysToShow, setDaysToShow] = useState<number | null>(null);
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
@@ -30,7 +31,7 @@ export default function LineChart() {
     }, []);
 
     const labels = useMemo(() => {
-        if (daysToShow === null) return [];
+        if (!daysToShow) return [];
         const now = new Date();
         return Array.from({ length: daysToShow }, (_, i) => {
             const date = new Date();
@@ -39,35 +40,41 @@ export default function LineChart() {
         });
     }, [daysToShow]);
 
-    const data = useMemo(() => ({
+    const rawData = useMemo(() => {
+        return labels.map(() => Math.floor(Math.random() * 50));
+    }, [labels]);
+
+    const differenceData = useMemo(() => {
+        return rawData.map((today, i) => {
+            if (i === 0) return null;
+            const yesterday = rawData[i - 1];
+            return Math.abs(today - yesterday);
+        });
+    }, [rawData]);
+
+    const data = {
         labels,
         datasets: [
             {
                 label: '일간 조회수',
-                data: labels.map(() => Math.floor(Math.random() * 50)),
-                borderColor: '#6366f1',
-                pointBackgroundColor: '#ffffff',
-                tension: 0.15,
-                pointRadius: 4,
-                pointBorderWidth: 2,
-                pointHoverBackgroundColor: '#6366f1',
-                pointHoverBorderColor: '#6366f1'
+                data: rawData,
+                backgroundColor: '#6366f1',
+                stack: 'total',
+                borderRadius: 0,
+                barPercentage: 0.3,
             },
             {
-                label: '일간 방문자',
-                data: labels.map(() => Math.floor(Math.random() * 50)),
-                borderColor: '#bfc5cd',
-                pointBackgroundColor: '#ffffff',
-                tension: 0.15,
-                pointRadius: 4,
-                pointBorderWidth: 2,
-                pointHoverBackgroundColor: '#bfc5cd',
-                pointHoverBorderColor: '#bfc5cd'
+                label: ' ',
+                data: differenceData,
+                backgroundColor: '#bfc5cd',
+                stack: 'total',
+                borderRadius: 0,
+                barPercentage: 0.3,
             },
-        ],
-    }), [labels]);
+        ]
+    };
 
-    const options: ChartOptions<'line'> = useMemo(() => ({
+    const options = useMemo<ChartOptions<'bar'>>(() => ({
         responsive: true,
         maintainAspectRatio: false,
         layout: { padding: { bottom: 8 } },
@@ -80,23 +87,12 @@ export default function LineChart() {
             x: {
                 grid: { display: false },
                 border: { display: false },
-                ticks: {
-                    display: false,
-                    // autoSkip: false,
-                    // maxRotation: 0,
-                },
+                ticks: { display: false },
+                stacked: true,
             },
             y: {
-                border: { display: false, dash: [3, 3], width: 0 },
-                grid: { 
-                    drawTicks: false, 
-                    // color: (context) => {
-                    //     const { index, scale } = context;
-                    //     const isTop = index === scale.ticks.length - 1;
-                    //     const isBottom = index === 0
-                    //     return isTop || isBottom ? 'transparent' : '#d1d5db';
-                    // },
-                },
+                border: { display: false, dash: [3, 3]},
+                grid: { drawTicks: false },
                 ticks: { display: false, stepSize: 10 },
             },
         },
@@ -130,11 +126,10 @@ export default function LineChart() {
         chart.tooltip?.setActiveElements([], { x: 0, y: 0 });
         chart.update();
     };
-
     return (
         <>
-            <section className='relative w-full h-80'>
-                <Line ref={chartRef} data={data} options={options} />
+            <section className='relative w-full h-80 pt-5'>
+                <Bar ref={chartRef} data={data} options={options} />
             </section>
             <ChartXAxis
                 labels={labels}
@@ -145,3 +140,4 @@ export default function LineChart() {
         </>
     );
 }
+

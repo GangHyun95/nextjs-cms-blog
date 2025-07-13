@@ -2,7 +2,7 @@ import type { TooltipModel, Chart } from 'chart.js';
 
 let tooltipEl: HTMLDivElement | null = null;
 
-export function customTooltip({ chart, tooltip }: { chart: Chart; tooltip: TooltipModel<'line'> }) {
+export function customTooltip({ chart, tooltip }: { chart: Chart; tooltip: TooltipModel<'line' | 'bar'> }) {
     if (!chart.canvas.parentNode) return;
 
     if (!tooltipEl || !chart.canvas.parentNode.contains(tooltipEl)) {
@@ -17,17 +17,28 @@ export function customTooltip({ chart, tooltip }: { chart: Chart; tooltip: Toolt
     }
 
     const { offsetLeft: posX, offsetTop: posY } = chart.canvas;
-    const x = tooltip.dataPoints[0].element.x;
-    const y = tooltip.dataPoints[0].element.y;
 
-    const dataIndex = tooltip.dataPoints[0].dataIndex;
+    const dataPoints = tooltip.dataPoints;
+    const sorted = [...dataPoints].sort((a, b) => a.element.y - b.element.y);
+    const topPoint = sorted[0];
+
+    const x = topPoint.element.x;
+    const y = topPoint.element.y;
+    const dataIndex = topPoint.dataIndex;
+
     const datasets = chart.data.datasets;
 
     let html = '<div class="chart-tooltip__content">';
 
-    tooltip.body.forEach((b, i) => {
+    const filtered = tooltip.body.filter((b) => {
+        const [label] = b.lines[0].split(':');
+        return !!label.trim();
+    });
+    
+    filtered.forEach((b, i) => {
         const raw = b.lines[0];
         const [label, valueStr] = raw.split(':').map((s) => s.trim());
+
         const value = Number(valueStr);
 
         const prev = datasets[i].data[dataIndex - 1];
@@ -52,7 +63,7 @@ export function customTooltip({ chart, tooltip }: { chart: Chart; tooltip: Toolt
             </div>
         `;
 
-        if (i !== tooltip.body.length - 1) {
+        if (i !== filtered.length - 1) {
             html += `<div class='chart-tooltip__divider'></div>`;
         }
     });
@@ -64,7 +75,7 @@ export function customTooltip({ chart, tooltip }: { chart: Chart; tooltip: Toolt
     const tooltipWidth = tooltipEl.offsetWidth;
     const tooltipHeight = tooltipEl.offsetHeight;
 
-    let left = posX + x;
+    let left = posX + x - 8;
     let top = posY + y - tooltipHeight - 8;
 
     if (left + tooltipWidth > window.innerWidth - 8) {

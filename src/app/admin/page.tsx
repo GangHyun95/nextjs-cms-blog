@@ -6,7 +6,7 @@ export default function AdminPage() {
         <div className='min-h-screen py-8'>
             <StatOverview />
 
-            <Card as='section' padding='lg' className='relative w-full h-[332px] mt-1 pt-0'>
+            <Card as='section' padding='lg' className='relative mt-1'>
                 <LineChart />
             </Card>
             <section className='mt-10'>
