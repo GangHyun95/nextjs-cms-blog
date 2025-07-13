@@ -1,8 +1,5 @@
-'use client';
-
-import { PencilLine, Search } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import PostListItem from '@/components/admin/posts/PostListItem';
 import Card from '@/components/ui/card';
 import CommentListItem from '@/components/admin/comments/CommentListItem';
 

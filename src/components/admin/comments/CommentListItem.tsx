@@ -12,7 +12,7 @@ export default function CommentListItem() {
                 </div>
                 
                 <div className='flex-1 space-y-1'>
-                    <div className='flex items-center gap-1 text-xs font-medium tracking-tight text-muted-foreground'>
+                    <div className='flex items-center gap-2 text-xs font-medium tracking-tight text-muted-foreground'>
                         <p className='text-primary'>익명</p>
                         <div className='dot'/>
                         <span>210.179.***.16</span>
