@@ -76,7 +76,7 @@ export function customTooltip({ chart, tooltip }: { chart: Chart; tooltip: Toolt
     const tooltipHeight = tooltipEl.offsetHeight;
 
     let left = posX + x - 8;
-    let top = posY + y - tooltipHeight - 8;
+    const top = posY + y - tooltipHeight - 8;
 
     if (left + tooltipWidth > window.innerWidth - 8) {
         left = left - tooltipWidth;

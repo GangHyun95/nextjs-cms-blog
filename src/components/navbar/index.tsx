@@ -13,7 +13,7 @@ export default function Navbar() {
                 </div>
                 <div className='flex-1 flex justify-center h-full'>
                     <Link href='/' className='h-full inline-flex items-center font-semibold'>
-                        <span className='underline-from-center'>Hyun's Dev 👨‍💻</span>
+                        <span className='underline-from-center'>Hyun&apos;s Dev 👨‍💻</span>
                     </Link>
                 </div>
                 <div className='h-full flex items-center space-x-8'>

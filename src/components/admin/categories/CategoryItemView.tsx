@@ -3,11 +3,10 @@ import { GripVertical } from 'lucide-react';
 
 type Props = {
     label: string;
-    isParent: boolean;
     onEdit: () => void;
 }
 
-export default function CategoryItemView({ label, isParent, onEdit }: Props) {
+export default function CategoryItemView({ label, onEdit }: Props) {
     return (
         <>
             <div className='min-w-10 h-full flex justify-center items-center cursor-move'>

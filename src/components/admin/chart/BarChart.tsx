@@ -94,7 +94,7 @@ export default function BarChart() {
                 ticks: { display: false, stepSize: 10 },
             },
         },
-        onHover: (_event, elements, _chart) => {
+        onHover: (_event, elements) => {
             setHoveredIndex(elements.length > 0 ? elements[0].index : null);
         },
     }), []);

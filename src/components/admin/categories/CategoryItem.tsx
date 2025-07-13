@@ -24,7 +24,7 @@ export default function CategoryItem({ label, isParent = false }: { label: strin
             {isEditing ? (
                 <CategoryItemEditing label={label} onCancel={() => setIsEditing(false)} />
             ) : (
-                <CategoryItemView label={label} isParent={isParent} onEdit={() => setIsEditing(true)} />
+                <CategoryItemView label={label} onEdit={() => setIsEditing(true)} />
             )}
         </div>
     );

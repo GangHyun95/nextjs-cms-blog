@@ -37,7 +37,6 @@ const navSections: NavSection[] = [
         title: '통계',
         items: [
             { label: '방문 통계', href: '/admin/stats/visits', icon: BarChartBig },
-            { label: '유입 경로', href: '/admin/stats/referrers', icon: Route },
         ],
     },
     {
