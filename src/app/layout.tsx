@@ -1,3 +1,4 @@
+import { GoogleAnalytics } from '@next/third-parties/google'
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 
@@ -28,6 +29,7 @@ export default function RootLayout({
                     <SessionInitializer />
                     {children}
                 </Providers>
+                <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID!} />
             </body>
         </html>
     );

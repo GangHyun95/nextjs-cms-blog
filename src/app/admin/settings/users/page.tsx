@@ -1,5 +1,3 @@
-'use client';
-
 import AdminPageHeader from '@/components/admin/common/AdminPageHeader';
 import RoleSelectDropdown from '@/components/admin/settings/RoleSelectDropdown';
 import { Button } from '@/components/ui/button';
