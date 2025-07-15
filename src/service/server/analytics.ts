@@ -1,4 +1,4 @@
-import { AnalyticsDaily, AnalyticsSummary, ApiResponse, TrafficStatsData } from '@/types/service';
+import { AnalyticsDaily, AnalyticsSummary, ApiResponse, ChannelStatsData, TrafficStatsData } from '@/types/service';
 
 export async function fetchAnalyticsSummary(): Promise<ApiResponse<AnalyticsSummary>> {
     const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/analytics/summary`, {
@@ -30,6 +30,20 @@ export async function fetchAnalyticsDaily(days: number): Promise<ApiResponse<{ d
 
 export async function fetchTrafficStats(days: number): Promise<ApiResponse<TrafficStatsData>> {
     const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/analytics/traffic?days=${days}`, {
+        next: { revalidate: 600 },
+    });
+
+    const data = await res.json();
+
+    if (!data.success) {
+        throw new Error(data.message);
+    }
+
+    return data;
+}
+
+export async function fetchChannelStats(days: number): Promise<ApiResponse<ChannelStatsData>> {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/analytics/channel?days=${days}`, {
         next: { revalidate: 600 },
     });
 

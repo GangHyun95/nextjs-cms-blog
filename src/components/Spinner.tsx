@@ -3,7 +3,7 @@ import { LoaderCircle } from 'lucide-react';
 export function FullPageSpinner() {
     return (
         <div className='fixed inset-0 flex items-center justify-center z-50 bg-background'>
-            <LoaderCircle className='size-10 md:size-8 text-foreground animate-spin'/>
+            <LoaderCircle className='size-10 md:size-8 text-primary animate-spin'/>
         </div>
     )
 }

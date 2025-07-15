@@ -85,3 +85,21 @@ export async function getBrowserStats(days: number) {
 
     return result ?? [];
 }
+
+export async function getReferralStats(days: number) {
+    const { startDate, endDate } = getDateRange(days);
+
+    const [res] = await client.runReport({
+        property: `properties/${process.env.GA4_PROPERTY_ID}`,
+        dateRanges: [{ startDate, endDate }],
+        dimensions: [{ name: 'sessionDefaultChannelGroup' }],
+        metrics: [{ name: 'activeUsers' }],
+    });
+
+    const result = res.rows?.map((row) => ({
+        channel: row.dimensionValues?.[0].value ?? '',
+        activeUsers: Number(row.metricValues?.[0].value ?? 0),
+    }));
+
+    return result ?? [];
+}

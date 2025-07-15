@@ -1,7 +1,7 @@
 import { getDeviceStats, getBrowserStats } from '@/lib/ga4';
 
-const DEVICE_CATEGORIES = ['mobile', 'desktop'];
-const BROWSERS = ['Chrome', 'Safari', 'Edge'];
+const DEVICE_CATEGORIES = ['mobile', 'desktop', 'tablet'];
+const BROWSERS = ['Chrome', 'Safari', 'Edge', '기타'];
 
 export async function GET(req: Request) {
     try {
@@ -37,6 +37,8 @@ export async function GET(req: Request) {
             const { browser, activeUsers } = browserStatsRaw[i];
             if (BROWSERS.includes(browser)) {
                 browserMap[browser] += activeUsers;
+            } else {
+                browserMap['기타'] += activeUsers;
             }
         }
 

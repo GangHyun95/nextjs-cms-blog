@@ -27,3 +27,7 @@ export type TrafficStatsData = {
     deviceStats: { label: string; value: string }[];
     browserStats: { label: string; value: string }[];
 };
+
+export type ChannelStatsData = {
+    channelStats: { label: string; value: string }[];
+}
