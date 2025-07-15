@@ -1,4 +1,4 @@
-import { login, refreshSession } from '@/service/auth';
+import { login, refreshSession } from '@/service/client/auth';
 import { useCallback, useState } from 'react';
 
 export function useLogin() {

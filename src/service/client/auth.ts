@@ -1,8 +1,4 @@
-type ApiResponse<T> = {
-    success: boolean;
-    data: T,
-    message: string;
-};
+import { ApiResponse } from '@/types/service';
 
 export async function login({ email, password }: { email: string; password: string }): Promise<ApiResponse<{ accessToken: string }>> {
     const res = await fetch('/api/auth/login', {

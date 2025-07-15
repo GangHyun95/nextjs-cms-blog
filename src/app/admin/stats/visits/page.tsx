@@ -46,7 +46,7 @@ export default function VisitStatsPage() {
 
     return (
         <div className='py-8'>
-            <StatOverview />
+            <StatOverview showStatsLink={false} />
 
             <Card as='section' padding='md' className='relative mt-1'>
                 <div className='flex'>

@@ -4,7 +4,7 @@ import Card from '@/components/ui/card';
 export default function AdminPage() {
     return (
         <div className='min-h-screen py-8'>
-            <StatOverview />
+            <StatOverview showStatsLink={true} />
 
             <Card as='section' padding='md' className='mt-1 pb-1'>
                 <div className='relative'>
