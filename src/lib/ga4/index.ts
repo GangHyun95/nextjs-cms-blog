@@ -1,8 +1,9 @@
 import { BetaAnalyticsDataClient } from '@google-analytics/data';
-import credentials from '@/ga4-service-account.json';
 import { formatToYYYY_MM_DD } from '../utils';
 
-const client = new BetaAnalyticsDataClient({ credentials });
+const client = new BetaAnalyticsDataClient({
+    credentials: JSON.parse(process.env.GA4_CREDENTIALS!),
+});
 
 function getDateRange(days: number) {
     const end = new Date();
