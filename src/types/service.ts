@@ -1,6 +1,6 @@
 export type ApiResponse<T> = {
     success: boolean;
-    data: T,
+    data: T;
     message: string;
 };
 
@@ -15,4 +15,10 @@ export type AnalyticsSummary = {
         yesterday: number;
         total: number;
     };
+};
+
+export type AnalyticsDaily = {
+    date: string;
+    views: number;
+    users: number;
 };

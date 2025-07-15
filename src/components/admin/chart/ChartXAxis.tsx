@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 type Props = {
-    labels: Date[];
+    labels: string[];
     hoveredIndex: number | null;
     onHover: (index: number) => void;
     onLeave: () => void;
@@ -15,14 +15,16 @@ type Props = {
 export default function ChartXAxis({ labels, hoveredIndex, onHover, onLeave, withArrows = false }: Props) {
     const today = new Date();
 
-    const xLabels = labels.map((label, i) => {
+    const dateLabels = labels.map(label => new Date(label));
+
+    const xLabels = dateLabels.map((label, i) => {
         const isToday =
             label.getFullYear() === today.getFullYear() &&
             label.getMonth() === today.getMonth() &&
             label.getDate() === today.getDate();
 
         const currentMonth = label.getMonth();
-        const prevMonth = i > 0 ? labels[i - 1].getMonth() : null;
+        const prevMonth = i > 0 ? dateLabels[i - 1].getMonth() : null;
         const showMonth = i === 0 || currentMonth !== prevMonth;
 
         return { label, isToday, showMonth, currentMonth, index: i };

@@ -5,9 +5,12 @@ import { Line } from 'react-chartjs-2';
 import { useMemo, useEffect, useRef, useState } from 'react';
 import type { ChartOptions, Chart } from 'chart.js';
 import { customTooltip } from '@/lib/chartjs/plugins/customTooltip';
+import { AnalyticsDaily } from '@/types/service';
+import { formatToYYYY_MM_DD } from '@/lib/utils';
+
 import ChartXAxis from './ChartXAxis';
 
-export default function LineChart() {
+export default function LineChart({ daily }: { daily: AnalyticsDaily[] }) {
     const chartRef = useRef<Chart<'line'> | null>(null);
     const [daysToShow, setDaysToShow] = useState<number | null>(null);
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -29,22 +32,19 @@ export default function LineChart() {
         return () => window.removeEventListener('resize', updateDays);
     }, []);
 
-    const labels = useMemo(() => {
+    const sliced = useMemo(() => {
         if (daysToShow === null) return [];
-        const now = new Date();
-        return Array.from({ length: daysToShow }, (_, i) => {
-            const date = new Date();
-            date.setDate(now.getDate() - (daysToShow - 1) + i);
-            return date;
-        });
-    }, [daysToShow]);
+        return daily.slice(-daysToShow);
+    }, [daily, daysToShow]);
+
+    const labels = useMemo(() => sliced.map(item => formatToYYYY_MM_DD(item.date)), [sliced]);
 
     const data = useMemo(() => ({
         labels,
         datasets: [
             {
                 label: '일간 조회수',
-                data: labels.map(() => Math.floor(Math.random() * 50)),
+                data: sliced.map(d => d.views),
                 borderColor: '#6366f1',
                 pointBackgroundColor: '#ffffff',
                 tension: 0.15,
@@ -55,7 +55,7 @@ export default function LineChart() {
             },
             {
                 label: '일간 방문자',
-                data: labels.map(() => Math.floor(Math.random() * 50)),
+                data: sliced.map(d => d.users),
                 borderColor: '#bfc5cd',
                 pointBackgroundColor: '#ffffff',
                 tension: 0.15,
@@ -64,13 +64,12 @@ export default function LineChart() {
                 pointHoverBackgroundColor: '#bfc5cd',
                 pointHoverBorderColor: '#bfc5cd'
             },
-        ],
-    }), [labels]);
+        ]
+    }), [labels, sliced]);
 
     const options: ChartOptions<'line'> = useMemo(() => ({
         responsive: true,
         maintainAspectRatio: false,
-        // layout: { padding: { bottom: 44.5 } },
         interaction: { mode: 'index', intersect: false },
         plugins: {
             legend: { display: false },
@@ -80,23 +79,11 @@ export default function LineChart() {
             x: {
                 grid: { display: false },
                 border: { display: false },
-                ticks: {
-                    display: false,
-                    // autoSkip: false,
-                    // maxRotation: 0,
-                },
+                ticks: { display: false },
             },
             y: {
                 border: { display: false, dash: [3, 3], width: 0 },
-                grid: { 
-                    drawTicks: false, 
-                    // color: (context) => {
-                    //     const { index, scale } = context;
-                    //     const isTop = index === scale.ticks.length - 1;
-                    //     const isBottom = index === 0
-                    //     return isTop || isBottom ? 'transparent' : '#d1d5db';
-                    // },
-                },
+                grid: { drawTicks: false },
                 ticks: { display: false, stepSize: 10 },
             },
         },
