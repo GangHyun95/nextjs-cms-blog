@@ -50,3 +50,38 @@ export async function getDailyUsers(days: number) {
     return result ?? [];
 }
 
+export async function getDeviceStats(days: number) {
+    const { startDate, endDate } = getDateRange(days);
+
+    const [res] = await client.runReport({
+        property: `properties/${process.env.GA4_PROPERTY_ID}`,
+        dateRanges: [{ startDate, endDate }],
+        dimensions: [{ name: 'deviceCategory' }],
+        metrics: [{ name: 'activeUsers' }],
+    });
+
+    const result = res.rows?.map((row) => ({
+        deviceCategory: row.dimensionValues?.[0].value ?? '',
+        activeUsers: Number(row.metricValues?.[0].value ?? 0),
+    }));
+
+    return result ?? [];
+}
+
+export async function getBrowserStats(days: number) {
+    const { startDate, endDate } = getDateRange(days);
+
+    const [res] = await client.runReport({
+        property: `properties/${process.env.GA4_PROPERTY_ID}`,
+        dateRanges: [{ startDate, endDate }],
+        dimensions: [{ name: 'browser' }],
+        metrics: [{ name: 'activeUsers' }],
+    });
+
+    const result = res.rows?.map((row) => ({
+        browser: row.dimensionValues?.[0].value ?? '',
+        activeUsers: Number(row.metricValues?.[0].value ?? 0),
+    }));
+
+    return result ?? [];
+}

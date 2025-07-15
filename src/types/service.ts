@@ -22,3 +22,8 @@ export type AnalyticsDaily = {
     views: number;
     users: number;
 };
+
+export type TrafficStatsData = {
+    deviceStats: { label: string; value: string }[];
+    browserStats: { label: string; value: string }[];
+};

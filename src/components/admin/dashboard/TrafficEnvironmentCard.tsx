@@ -1,17 +1,20 @@
 import Card from '@/components/ui/card';
+import { fetchTrafficStats } from '@/service/server/analytics';
 
-const deviceStats = [
-    { label: '모바일', value: '65.3%', barColor: 'bg-primary' },
-    { label: '데스크탑', value: '34.7%', barColor: 'bg-chart-2' }
-];
+const deviceColors: { [key: string]: string } = {
+    mobile: 'bg-primary',
+    desktop: 'bg-chart-2',
+};
 
-const browserStats = [
-    { label: 'Chrome', value: '78%', barColor: 'bg-primary' },
-    { label: 'Safari', value: '15%', barColor: 'bg-chart-2' },
-    { label: 'Edge', value: '5%', barColor: 'bg-muted-foreground' }
-];
+const browserColors: { [key: string]: string } = {
+    Chrome: 'bg-primary',
+    Safari: 'bg-chart-2',
+    Edge: 'bg-muted-foreground',
+};
 
-export default function TrafficEnvironmentCard() {
+export default async function TrafficEnvironmentCard() {
+    const { data: { deviceStats, browserStats }} = await fetchTrafficStats(7);
+
     return (
         <Card padding='uniform'>
             <h3 className='text-sm font-bold text-muted-foreground mb-4'>접속 환경</h3>
@@ -21,12 +24,17 @@ export default function TrafficEnvironmentCard() {
                 <ul className='flex flex-col space-y-2'>
                     {deviceStats.map((item, i) => (
                         <li key={i} className='flex items-center gap-3'>
-                            <span className='text-sm text-muted-foreground min-w-14'>{item.label}</span>
+                            <span className='text-sm text-muted-foreground min-w-14'>
+                                {item.label === 'mobile' ? '모바일' : item.label === 'desktop' ? '데스크탑' : item.label}
+                            </span>
                             <div className='flex-1 flex items-center gap-2'>
                                 <div className='flex-1 h-1 bg-muted rounded overflow-hidden'>
-                                    <div className={`h-full ${item.barColor}`} style={{ width: item.value }} />
+                                    <div
+                                        className={`${deviceColors[item.label] ?? 'bg-muted'} h-full`}
+                                        style={{ width: item.value }}
+                                    />
                                 </div>
-                                <span className='text-sm text-muted-foreground min-w-12 text-end'>{item.value}</span>
+                                <span className='text-sm text-muted-foreground min-w-13 text-end'>{item.value}</span>
                             </div>
                         </li>
                     ))}
@@ -41,7 +49,10 @@ export default function TrafficEnvironmentCard() {
                             <span className='text-sm text-muted-foreground min-w-14'>{item.label}</span>
                             <div className='flex-1 flex items-center gap-2'>
                                 <div className='flex-1 h-1 bg-muted rounded overflow-hidden'>
-                                    <div className={`h-full ${item.barColor}`} style={{ width: item.value }} />
+                                    <div
+                                        className={`${browserColors[item.label] ?? 'bg-muted'} h-full`}
+                                        style={{ width: item.value }}
+                                    />
                                 </div>
                                 <span className='text-sm text-muted-foreground min-w-12 text-end'>{item.value}</span>
                             </div>
