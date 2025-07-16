@@ -5,9 +5,9 @@ import { Button } from '@/components/ui/button';
 import BarChart from '../chart/BarChart';
 import StatGroup from './StatGroup';
 import Card from '@/components/ui/card';
-import { fetchAnalyticsTimeseries } from '@/service/server/analytics';
-
-const temp = 31;
+import { useAnalyticsTimeseries } from '@/hooks/useAnalyticsTimeseries';
+import type { AnalyticsDaily } from '@/types/service';
+import { ChartSpinner } from '@/components/Spinner';
 
 const statGroups = [
     {
@@ -48,85 +48,76 @@ const statGroups = [
 
 export default function ChartSection() {
     const [metric, setMetric] = useState<'views' | 'users'>('views');
-    const [mode, setMode] = useState<'daily' | 'weekly' | 'monthly'>('monthly');
+    const [mode, setMode] = useState<'date' | 'yearWeek' | 'yearMonth'>('date');
+    const [timeseries, setTimeseries] = useState<AnalyticsDaily[]>([]);
+    const { fetchTimeseries, isLoading } = useAnalyticsTimeseries();
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const test = await fetchAnalyticsTimeseries(21, 0, 'date', false);
-                const test2 = await fetchAnalyticsTimeseries(15, 0, 'yearWeek', false);
-                const test3 = await fetchAnalyticsTimeseries(12, 0, 'yearMonth', false);
-                console.log(test);
-                console.log(test2);
-                console.log(test3)
-            } catch (error) {
-                console.error(error);
-            }
+        const count = mode === 'date' ? 21 : mode === 'yearWeek' ? 15 : 12;
+
+        const loadData = async () => {
+            const data = await fetchTimeseries(count, 0, mode);
+            setTimeseries(data);
         };
 
-        fetchData();
-    }, []);
+        loadData();
+    }, [mode, fetchTimeseries]);
+
+
+    const metricButtons: { key: 'views' | 'users'; label: string }[] = [
+        { key: 'views', label: '조회수' },
+        { key: 'users', label: '방문자' },
+    ];
+
+    const modeButtons: { key: 'date' | 'yearWeek' | 'yearMonth'; label: string }[] = [
+        { key: 'date', label: '일간' },
+        { key: 'yearWeek', label: '주간' },
+        { key: 'yearMonth', label: '월간' },
+    ];
 
     return (
         <Card as='section' padding='md' className='relative mt-1'>
-            <div className='flex'>
+            <div className='flex items-center'>
                 <h3 className='text-xl font-semibold flex-1'>2025.07</h3>
+
                 <div className='flex gap-4'>
                     <div className='inline-flex rounded-xs overflow-hidden [&>*]:not-last:border-r-0'>
-                        <Button
-                            variant='outline'
-                            size='xs'
-                            className={`text-xs rounded-none ${metric === 'views' ? 'bg-muted-foreground text-white' : ''}`}
-                            onClick={() => setMetric('views')}
-                        >
-                            조회수
-                        </Button>
-                        <Button
-                            variant='outline'
-                            size='xs'
-                            className={`text-xs rounded-none ${metric === 'users' ? 'bg-muted-foreground text-white' : ''}`}
-                            onClick={() => setMetric('users')}
-                        >
-                            방문자
-                        </Button>
+                        {metricButtons.map(({ key, label }) => (
+                            <Button
+                                key={key}
+                                variant='outline'
+                                size='xs'
+                                className={`text-xs rounded-none ${metric === key ? 'bg-muted-foreground text-white' : ''}`}
+                                onClick={() => setMetric(key)}
+                            >
+                                {label}
+                            </Button>
+                        ))}
                     </div>
 
                     <div className='inline-flex rounded-xs overflow-hidden ml-2 [&>*]:not-last:border-r-0'>
-                        <Button
-                            variant='outline'
-                            size='xs'
-                            className={`text-xs rounded-none ${mode === 'daily' ? 'bg-muted-foreground text-white' : ''}`}
-                            onClick={() => setMode('daily')}
-                        >
-                            일간
-                        </Button>
-                        <Button
-                            variant='outline'
-                            size='xs'
-                            className={`text-xs rounded-none ${mode === 'weekly' ? 'bg-muted-foreground text-white' : ''}`}
-                            onClick={() => setMode('weekly')}
-                        >
-                            주간
-                        </Button>
-                        <Button
-                            variant='outline'
-                            size='xs'
-                            className={`text-xs rounded-none ${mode === 'monthly' ? 'bg-muted-foreground text-white' : ''}`}
-                            onClick={() => setMode('monthly')}
-                        >
-                            월간
-                        </Button>
+                        {modeButtons.map(({ key, label }) => (
+                            <Button
+                                key={key}
+                                variant='outline'
+                                size='xs'
+                                className={`text-xs rounded-none ${mode === key ? 'bg-muted-foreground text-white' : ''}`}
+                                onClick={() => setMode(key)}
+                            >
+                                {label}
+                            </Button>
+                        ))}
                     </div>
                 </div>
             </div>
-
+            
             <div className='relative border-b'>
-                <BarChart metric={metric} displayMode={mode} />
+                { isLoading ? <ChartSpinner /> : <BarChart metric={metric} displayMode={mode} data={timeseries} />}
             </div>
 
             <div className='flex flex-col mt-10 pl-2.5 gap-10 xl:flex-row'>
                 {statGroups.map((group) => (
-                    <StatGroup key={group.title} group={group} totalViews={temp} />
+                    <StatGroup key={group.title} group={group} totalViews={0} />
                 ))}
             </div>
         </Card>

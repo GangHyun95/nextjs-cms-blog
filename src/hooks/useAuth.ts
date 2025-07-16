@@ -29,6 +29,7 @@ export function useRefreshSession() {
             const { data } = await refreshSession();
             return { accessToken: data.accessToken };
         } catch (err) {
+            console.error('세션 갱신 실패:', err);
             throw err;
         } finally {
             setIsRefreshing(false);

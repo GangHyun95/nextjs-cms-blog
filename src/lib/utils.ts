@@ -31,6 +31,12 @@ export function formatToYYYYMMDD(date: Date): string {
     return `${year}${month}${day}`;
 }
 
+export function formatYearWeek(str: string): string {
+    const year = str.slice(0, 4);
+    const week = str.slice(4).padStart(2, '0');
+    return `${year}W${week}`;
+}
+
 export function formatToYYYY_MM_DD(date: Date | string): string {
     if (date instanceof Date) {
         const year = date.getFullYear();
@@ -38,12 +44,33 @@ export function formatToYYYY_MM_DD(date: Date | string): string {
         const day = String(date.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
     }
-    
-    if (typeof date === 'string' && date.length === 8) {
-        const year = date.slice(0, 4);
-        const month = date.slice(4, 6);
-        const day = date.slice(6, 8);
-        return `${year}-${month}-${day}`;
+
+    if (typeof date === 'string') {
+        if (date.length === 8) {
+            return `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}`;
+        }
+
+        if (date.length === 6) {
+            return `${date.slice(0, 4)}-${date.slice(4, 6)}-01`;
+        }
+
+        if (date.length === 7 && date.includes('W')) {
+            const year = parseInt(date.slice(0, 4), 10);
+            const week = parseInt(date.slice(5), 10);
+
+            const jan4 = new Date(year, 0, 4);
+            const dayOfWeek = jan4.getDay();
+            const isoWeekStart = new Date(jan4);
+            isoWeekStart.setDate(jan4.getDate() - ((dayOfWeek + 6) % 7));
+
+            isoWeekStart.setDate(isoWeekStart.getDate() + (week - 1) * 7);
+
+            const yyyy = isoWeekStart.getFullYear();
+            const mm = String(isoWeekStart.getMonth() + 1).padStart(2, '0');
+            const dd = String(isoWeekStart.getDate()).padStart(2, '0');
+
+            return `${yyyy}-${mm}-${dd}`;
+        }
     }
 
     throw new Error('Invalid date format');

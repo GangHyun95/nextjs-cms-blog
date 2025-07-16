@@ -10,11 +10,11 @@ type Props = {
     onHover: (index: number) => void;
     onLeave: () => void;
     withArrows?: boolean;
+    displayMode?: 'date' | 'yearWeek' | 'yearMonth';
 };
 
-export default function ChartXAxis({ labels, hoveredIndex, onHover, onLeave, withArrows = false }: Props) {
+export default function ChartXAxis({ labels, hoveredIndex, onHover, onLeave, withArrows = false, displayMode = 'date' }: Props) {
     const today = new Date();
-
     const dateLabels = labels.map(label => new Date(label));
 
     const xLabels = dateLabels.map((label, i) => {
@@ -27,13 +27,17 @@ export default function ChartXAxis({ labels, hoveredIndex, onHover, onLeave, wit
         const prevMonth = i > 0 ? dateLabels[i - 1].getMonth() : null;
         const showMonth = i === 0 || currentMonth !== prevMonth;
 
-        return { label, isToday, showMonth, currentMonth, index: i };
+        const currentYear = label.getFullYear();
+        const prevYear = i > 0 ? dateLabels[i - 1].getFullYear() : null;
+        const showYear = i === 0 || currentYear !== prevYear;
+
+        return { label, isToday, showMonth, showYear, currentMonth, currentYear, index: i };
     });
 
     return (
         <div className={cn('absolute bottom-0 left-0 right-0 pb-2', withArrows && 'px-8')}>
             <div className='flex'>
-                {xLabels.map(({ label, isToday, showMonth, currentMonth, index }) => (
+                {xLabels.map(({ label, isToday, showMonth, showYear, currentMonth, currentYear, index }) => (
                     <div
                         key={index}
                         className='flex-1 flex flex-col items-center gap-1 pt-2'
@@ -49,9 +53,16 @@ export default function ChartXAxis({ labels, hoveredIndex, onHover, onLeave, wit
                                 'hover:bg-primary hover:text-background',
                             )}
                         >
-                            {isToday ? '오늘' : label.getDate()}
+                            {displayMode === 'yearMonth' ? currentMonth + 1 : isToday ? '오늘' : label.getDate()}
                         </Button>
-                        {showMonth && (
+                        
+                        {displayMode === 'yearMonth' && showYear && (
+                            <span className='text-tiny text-muted-foreground cursor-default'>
+                                {currentYear}년
+                            </span>
+                        )}
+
+                        {displayMode !== 'yearMonth' && showMonth && (
                             <span className='text-tiny text-muted-foreground cursor-default'>
                                 {currentMonth + 1}월
                             </span>

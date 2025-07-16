@@ -24,3 +24,11 @@ export function AdminLoadingSpinner() {
         </div>
     );
 }
+
+export function ChartSpinner() {
+    return (
+        <div className='h-80 flex justify-center items-center'>
+            <LoaderCircle className='size-8 animate-spin text-primary' />
+        </div>
+    )
+}

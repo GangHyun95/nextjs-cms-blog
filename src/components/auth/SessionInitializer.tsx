@@ -12,17 +12,13 @@ export default function SessionInitializer() {
 
     useEffect(() => {
         (async () => {
-            try {
-                const { accessToken } = await refresh();
-                dispatch(setAccessToken({ accessToken }));
-            } catch (error) {
-                console.error('세션 갱신 실패:', error);
-            }
+            const { accessToken } = await refresh();
+            dispatch(setAccessToken({ accessToken }));
         })();
     }, [refresh, dispatch]);
 
     if (isRefreshing) {
-        return <FullPageSpinner />
+        return <FullPageSpinner />;
     }
 
     return null;

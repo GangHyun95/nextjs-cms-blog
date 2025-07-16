@@ -1,5 +1,5 @@
 import { getViews, getUsers } from '@/lib/ga4';
-import { formatToYYYYMMDD } from '@/lib/utils';
+import { formatToYYYYMMDD, formatYearWeek } from '@/lib/utils';
 
 export async function GET(req: Request) {
     try {
@@ -32,7 +32,7 @@ export async function GET(req: Request) {
                 const jan1 = new Date(year, 0, 1);
                 const diff = Math.floor((date.getTime() - jan1.getTime()) / (1000 * 60 * 60 * 24));
                 const week = Math.ceil((diff + 1) / 7);
-                labels.push(`${year}${String(week).padStart(2, '0')}`);
+                labels.push(`${year}W${String(week).padStart(2, '0')}`);
             }
         } else if (period === 'yearMonth') {
             for (let i = days - 1; i >= 0; i--) {
@@ -45,13 +45,15 @@ export async function GET(req: Request) {
         const viewsByDate: Record<string, number> = {};
         for (let i = 0; i < viewsList.length; i++) {
             const item = viewsList[i];
-            viewsByDate[item.date] = item.views;
+            const key = period === 'yearWeek' ? formatYearWeek(item.date) : item.date;
+            viewsByDate[key] = item.views;
         }
 
         const usersByDate: Record<string, number> = {};
         for (let i = 0; i < usersList.length; i++) {
             const item = usersList[i];
-            usersByDate[item.date] = item.users;
+            const key = period === 'yearWeek' ? formatYearWeek(item.date) : item.date;
+            usersByDate[key] = item.users;
         }
 
         const merged = labels.map(date => ({
