@@ -6,8 +6,9 @@ export async function GET(req: Request) {
     try {
         const { searchParams } = new URL(req.url);
         const days = parseInt(searchParams.get('days') || '7', 10);
+        const offset = parseInt(searchParams.get('offset') || '0', 10);
         
-        const stats = await getReferralStats(days);
+        const stats = await getReferralStats(days, offset);
 
         const categoryMap: Record<string, string[]> = {
             '검색': ['Organic Search', 'Paid Search'],

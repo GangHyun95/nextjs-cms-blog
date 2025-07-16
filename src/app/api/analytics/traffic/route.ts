@@ -7,10 +7,11 @@ export async function GET(req: Request) {
     try {
         const { searchParams } = new URL(req.url);
         const days = parseInt(searchParams.get('days') || '7', 10);
+        const offset = parseInt(searchParams.get('offset') || '0', 10);
 
         const [deviceStatsRaw, browserStatsRaw] = await Promise.all([
-            getDeviceStats(days),
-            getBrowserStats(days),
+            getDeviceStats(days, offset),
+            getBrowserStats(days, offset),
         ]);
 
         const totalDeviceUsers = deviceStatsRaw.reduce((sum, data) => sum + data.activeUsers, 0);

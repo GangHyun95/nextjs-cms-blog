@@ -5,15 +5,17 @@ const client = new BetaAnalyticsDataClient({
     credentials: JSON.parse(process.env.GA4_CREDENTIALS!),
 });
 
-function getDateRange(days: number) {
+function getDateRange(days: number, offset = 0) {
     const end = new Date();
-    const start = new Date();
+    end.setDate(end.getDate() - offset);
+
+    const start = new Date(end);
     start.setDate(end.getDate() - days + 1);
     return { startDate: formatToYYYY_MM_DD(start), endDate: formatToYYYY_MM_DD(end) };
 }
 
-export async function getDailyViews(days: number) {
-    const { startDate, endDate } = getDateRange(days);
+export async function getDailyViews(days: number, offset: number) {
+    const { startDate, endDate } = getDateRange(days, offset);
 
     const [res] = await client.runReport({
         property: `properties/${process.env.GA4_PROPERTY_ID}`,
@@ -31,8 +33,8 @@ export async function getDailyViews(days: number) {
     return result ?? [];
 }
 
-export async function getDailyUsers(days: number) {
-    const { startDate, endDate } = getDateRange(days);
+export async function getDailyUsers(days: number, offset: number) {
+    const { startDate, endDate } = getDateRange(days, offset);
 
     const [res] = await client.runReport({
         property: `properties/${process.env.GA4_PROPERTY_ID}`,
@@ -50,8 +52,8 @@ export async function getDailyUsers(days: number) {
     return result ?? [];
 }
 
-export async function getDeviceStats(days: number) {
-    const { startDate, endDate } = getDateRange(days);
+export async function getDeviceStats(days: number, offset: number) {
+    const { startDate, endDate } = getDateRange(days, offset);
 
     const [res] = await client.runReport({
         property: `properties/${process.env.GA4_PROPERTY_ID}`,
@@ -68,8 +70,8 @@ export async function getDeviceStats(days: number) {
     return result ?? [];
 }
 
-export async function getBrowserStats(days: number) {
-    const { startDate, endDate } = getDateRange(days);
+export async function getBrowserStats(days: number, offset: number) {
+    const { startDate, endDate } = getDateRange(days, offset);
 
     const [res] = await client.runReport({
         property: `properties/${process.env.GA4_PROPERTY_ID}`,
@@ -86,8 +88,8 @@ export async function getBrowserStats(days: number) {
     return result ?? [];
 }
 
-export async function getReferralStats(days: number) {
-    const { startDate, endDate } = getDateRange(days);
+export async function getReferralStats(days: number, offset: number) {
+    const { startDate, endDate } = getDateRange(days, offset);
 
     const [res] = await client.runReport({
         property: `properties/${process.env.GA4_PROPERTY_ID}`,

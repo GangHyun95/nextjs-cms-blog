@@ -5,16 +5,17 @@ export async function GET(req: Request) {
     try {
         const { searchParams } = new URL(req.url);
         const days = parseInt(searchParams.get('days') || '30', 10);
+        const offset = parseInt(searchParams.get('offset') || '0', 10);
 
         const [viewsList, usersList] = await Promise.all([
-            getDailyViews(days),
-            getDailyUsers(days),
+            getDailyViews(days, offset),
+            getDailyUsers(days, offset),
         ]);
 
         const now = new Date();
         const labels = Array.from({ length: days }, (_, i) => {
             const date = new Date();
-            date.setDate(now.getDate() - (days - 1) + i);
+            date.setDate(now.getDate() - (days - 1 + offset) + i);
             return formatToYYYYMMDD(date);
         });
         

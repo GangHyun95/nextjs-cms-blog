@@ -3,14 +3,16 @@ import { formatToYYYYMMDD } from '@/lib/utils';
 
 export async function GET() {
     try {
+        const since = new Date('2025-07-01');
         const today = new Date();
+        const days = Math.floor((today.getTime() - since.getTime()) / (1000 * 60 * 60 * 24)) + 1;
         const yesterday = new Date(today);
         yesterday.setDate(today.getDate() - 1);
 
         const todayStr = formatToYYYYMMDD(today);
         const yesterdayStr = formatToYYYYMMDD(yesterday);
 
-        const [viewsList, usersList] = await Promise.all([getDailyViews(30), getDailyUsers(30)]);
+        const [viewsList, usersList] = await Promise.all([getDailyViews(days, 0), getDailyUsers(days, 0)]);
 
         const totalViews = viewsList.reduce((sum, data) => sum + data.views, 0);
         const totalUsers = usersList.reduce((sum, data) => sum + data.users, 0);
