@@ -49,6 +49,7 @@ const statGroups = [
 export default function ChartSection() {
     const [metric, setMetric] = useState<'views' | 'users'>('views');
     const [mode, setMode] = useState<'date' | 'yearWeek' | 'yearMonth'>('date');
+    const [offset, setOffset] = useState(0);
     const [timeseries, setTimeseries] = useState<AnalyticsDaily[]>([]);
     const { fetchTimeseries, isLoading } = useAnalyticsTimeseries();
 
@@ -56,14 +57,13 @@ export default function ChartSection() {
         const count = mode === 'date' ? 21 : mode === 'yearWeek' ? 15 : 12;
 
         const loadData = async () => {
-            const data = await fetchTimeseries(count, 0, mode);
+            const data = await fetchTimeseries(count, offset, mode);
             setTimeseries(data);
         };
 
         loadData();
-    }, [mode, fetchTimeseries]);
-
-
+    }, [mode, offset, fetchTimeseries]);
+    
     const metricButtons: { key: 'views' | 'users'; label: string }[] = [
         { key: 'views', label: '조회수' },
         { key: 'users', label: '방문자' },
@@ -112,7 +112,17 @@ export default function ChartSection() {
             </div>
             
             <div className='relative border-b'>
-                { isLoading ? <ChartSpinner /> : <BarChart metric={metric} displayMode={mode} data={timeseries} />}
+                {isLoading ? (
+                    <ChartSpinner />
+                ) : (
+                    <BarChart
+                        metric={metric}
+                        displayMode={mode}
+                        data={timeseries}
+                        offset={offset}
+                        setOffset={setOffset}
+                    />
+                )}
             </div>
 
             <div className='flex flex-col mt-10 pl-2.5 gap-10 xl:flex-row'>

@@ -11,11 +11,39 @@ type Props = {
     onLeave: () => void;
     withArrows?: boolean;
     displayMode?: 'date' | 'yearWeek' | 'yearMonth';
+    offset?: number;
+    setOffset?: React.Dispatch<React.SetStateAction<number>>;
 };
 
-export default function ChartXAxis({ labels, hoveredIndex, onHover, onLeave, withArrows = false, displayMode = 'date' }: Props) {
+export default function ChartXAxis({
+    labels,
+    hoveredIndex,
+    onHover,
+    onLeave,
+    withArrows = false,
+    displayMode = 'date',
+    offset = 0,
+    setOffset,
+}: Props) {
     const today = new Date();
     const dateLabels = labels.map(label => new Date(label));
+
+    const getOffsetStep = (mode: 'date' | 'yearWeek' | 'yearMonth') => {
+        if (mode === 'date') return 21;
+        if (mode === 'yearWeek') return 105;
+        if (mode === 'yearMonth') return 365;
+        return 30;
+    };
+
+    const handlePrev = () => {
+        const step = getOffsetStep(displayMode);
+        setOffset?.(prev => prev + step);
+    };
+
+    const handleNext = () => {
+        const step = getOffsetStep(displayMode);
+        setOffset?.(prev => Math.max(prev - step, 0));
+    };
 
     const xLabels = dateLabels.map((label, i) => {
         const isToday =
@@ -55,7 +83,7 @@ export default function ChartXAxis({ labels, hoveredIndex, onHover, onLeave, wit
                         >
                             {displayMode === 'yearMonth' ? currentMonth + 1 : isToday ? '오늘' : label.getDate()}
                         </Button>
-                        
+
                         {displayMode === 'yearMonth' && showYear && (
                             <span className='text-tiny text-muted-foreground cursor-default'>
                                 {currentYear}년
@@ -70,13 +98,14 @@ export default function ChartXAxis({ labels, hoveredIndex, onHover, onLeave, wit
                     </div>
                 ))}
             </div>
-            
+
             {withArrows && (
                 <div className='absolute top-1/2 left-0 right-0 flex justify-between -translate-y-1/2 pointer-events-none'>
                     <Button
                         variant='outline'
                         size='icon'
                         className='size-7 pointer-events-auto'
+                        onClick={handlePrev}
                     >
                         <ChevronLeft className='size-4' />
                     </Button>
@@ -84,11 +113,12 @@ export default function ChartXAxis({ labels, hoveredIndex, onHover, onLeave, wit
                         variant='outline'
                         size='icon'
                         className='size-7 pointer-events-auto'
+                        onClick={handleNext}
+                        disabled={offset === 0}
                     >
                         <ChevronRight className='size-4' />
                     </Button>
                 </div>
-
             )}
         </div>
     );

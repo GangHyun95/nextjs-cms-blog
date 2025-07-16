@@ -13,6 +13,8 @@ type Props = {
     metric: 'views' | 'users';
     displayMode: 'date' | 'yearWeek' | 'yearMonth';
     data: AnalyticsDaily[];
+    offset: number;
+    setOffset: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const MAX_BY_MODE: Record<'date' | 'yearWeek' | 'yearMonth', number> = {
@@ -21,7 +23,7 @@ const MAX_BY_MODE: Record<'date' | 'yearWeek' | 'yearMonth', number> = {
     yearMonth: 12,
 };
 
-export default function BarChart({ metric, displayMode, data }: Props) {
+export default function BarChart({ metric, displayMode, data, offset, setOffset }: Props) {
     const chartRef = useRef<Chart<'bar'> | null>(null);
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
     const [count, setCount] = useState(MAX_BY_MODE[displayMode]);
@@ -133,6 +135,8 @@ export default function BarChart({ metric, displayMode, data }: Props) {
                 onLeave={handleLeave}
                 withArrows={true}
                 displayMode={displayMode}
+                offset={offset}
+                setOffset={setOffset}
             />
         </>
     );
