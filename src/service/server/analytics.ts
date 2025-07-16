@@ -1,6 +1,6 @@
-import { AnalyticsDaily, AnalyticsSummary, ApiResponse, ChannelStatsData, TrafficStatsData } from '@/types/service';
+import { AnalyticsDaily, AnalyticsSummary, ApiResponse, StatsData  } from '@/types/service';
 
-export async function fetchAnalyticsSummary(): Promise<ApiResponse<AnalyticsSummary>> {
+export async function fetchAnalyticsSummary(): Promise<ApiResponse<{ views: AnalyticsSummary; users: AnalyticsSummary}>> {
     const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/analytics/summary`, {
         next: { revalidate: 600 },
     });
@@ -14,11 +14,16 @@ export async function fetchAnalyticsSummary(): Promise<ApiResponse<AnalyticsSumm
     return data;
 }
 
-export async function fetchAnalyticsDaily(days: number, offset:number = 0): Promise<ApiResponse<{ daily: AnalyticsDaily[] }>> {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/analytics/daily?days=${days}&offset=${offset}`, {
-        next: { revalidate: 600 },
-    });
+export async function fetchAnalyticsTimeseries(
+    days: number,
+    offset: number = 0,
+    period: 'date' | 'yearWeek' | 'yearMonth' = 'date',
+    isServer: boolean = true
+): Promise<ApiResponse<{ timeseries: AnalyticsDaily[] }>> {
+    const url = `${process.env.NEXT_PUBLIC_SITE_URL}/api/analytics/timeseries?days=${days}&offset=${offset}&period=${period}`;
+    const options = isServer ? { next: { revalidate: 600 } } : {};
 
+    const res = await fetch(url, options);
     const data = await res.json();
 
     if (!data.success) {
@@ -28,7 +33,7 @@ export async function fetchAnalyticsDaily(days: number, offset:number = 0): Prom
     return data;
 }
 
-export async function fetchTrafficStats(days: number, offset:number = 0): Promise<ApiResponse<TrafficStatsData>> {
+export async function fetchTrafficStats(days: number, offset:number = 0): Promise<ApiResponse<{ deviceStats: StatsData[]; browserStats: StatsData[] }>> {
     const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/analytics/traffic?days=${days}&offset=${offset}`, {
         next: { revalidate: 600 },
     });
@@ -42,7 +47,7 @@ export async function fetchTrafficStats(days: number, offset:number = 0): Promis
     return data;
 }
 
-export async function fetchChannelStats(days: number, offset:number = 0): Promise<ApiResponse<ChannelStatsData>> {
+export async function fetchChannelStats(days: number, offset:number = 0): Promise<ApiResponse<{ channelStats: StatsData[] }>> {
     const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/analytics/channel?days=${days}&offset=${offset}`, {
         next: { revalidate: 600 },
     });

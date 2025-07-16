@@ -3,45 +3,51 @@
 import '@/lib/chartjs';
 import { Bar } from 'react-chartjs-2';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Chart, ChartOptions } from 'chart.js';
+import type { Chart, ChartOptions } from 'chart.js';
 import { customTooltip } from '@/lib/chartjs/plugins/customTooltip';
 import ChartXAxis from './ChartXAxis';
+import { formatToYYYY_MM_DD } from '@/lib/utils';
 
-export default function BarChart() {
+type Props = {
+    metric: 'views' | 'users';
+    displayMode: 'daily' | 'weekly' | 'monthly';
+};
+
+export default function BarChart({ metric, displayMode }: Props) {
     const chartRef = useRef<Chart<'bar'> | null>(null);
-    const [daysToShow, setDaysToShow] = useState<number | null>(null);
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-    useEffect(() => {
-        const updateDays = () => {
-            const width = window.innerWidth;
-            if (width < 768) {
-                setDaysToShow(7);
-            } else if (width < 1280) {
-                setDaysToShow(14);
-            } else {
-                setDaysToShow(21);
-            }
-        };
-
-        updateDays();
-        window.addEventListener('resize', updateDays);
-        return () => window.removeEventListener('resize', updateDays);
-    }, []);
+    const daysToShow = useMemo(() => {
+        switch (displayMode) {
+            case 'daily': return 21;
+            case 'weekly': return 15;
+            case 'monthly': return 12;
+        }
+    }, [displayMode]);
 
     const labels = useMemo(() => {
-        if (!daysToShow) return [];
         const now = new Date();
         return Array.from({ length: daysToShow }, (_, i) => {
-            const date = new Date();
-            date.setDate(now.getDate() - (daysToShow - 1) + i);
-            return date;
+            const date = new Date(now);
+            if (displayMode === 'daily') {
+                date.setDate(now.getDate() - (daysToShow - 1 - i));
+                return formatToYYYY_MM_DD(date);
+            }
+            if (displayMode === 'weekly') {
+                date.setDate(now.getDate() - (daysToShow - 1 - i) * 7);
+                return formatToYYYY_MM_DD(date);
+            }
+            if (displayMode === 'monthly') {
+                date.setMonth(now.getMonth() - (daysToShow - 1 - i));
+                return formatToYYYY_MM_DD(date);
+            }
+            return formatToYYYY_MM_DD(date);
         });
-    }, [daysToShow]);
+    }, [daysToShow, displayMode]);
 
     const rawData = useMemo(() => {
         return labels.map(() => Math.floor(Math.random() * 50));
-    }, [labels]);
+    }, [labels, metric]);
 
     const differenceData = useMemo(() => {
         return rawData.map((today, i) => {
@@ -55,7 +61,7 @@ export default function BarChart() {
         labels,
         datasets: [
             {
-                label: '일간 조회수',
+                label: `${displayMode === 'daily' ? '일간' : displayMode === 'weekly' ? '주간' : '월간'} ${metric === 'views' ? '조회수' : '방문자'}`,
                 data: rawData,
                 backgroundColor: '#6366f1',
                 stack: 'total',
@@ -70,7 +76,7 @@ export default function BarChart() {
                 borderRadius: 0,
                 barPercentage: 0.3,
             },
-        ]
+        ],
     };
 
     const options = useMemo<ChartOptions<'bar'>>(() => ({
@@ -89,7 +95,7 @@ export default function BarChart() {
                 stacked: true,
             },
             y: {
-                border: { display: false, dash: [3, 3]},
+                border: { display: false, dash: [3, 3] },
                 grid: { drawTicks: false },
                 ticks: { display: false, stepSize: 10 },
             },
@@ -124,6 +130,7 @@ export default function BarChart() {
         chart.tooltip?.setActiveElements([], { x: 0, y: 0 });
         chart.update();
     };
+
     return (
         <>
             <section className='w-full h-80 pb-[52.5px] px-8'>
@@ -139,4 +146,3 @@ export default function BarChart() {
         </>
     );
 }
-

@@ -14,13 +14,13 @@ function getDateRange(days: number, offset = 0) {
     return { startDate: formatToYYYY_MM_DD(start), endDate: formatToYYYY_MM_DD(end) };
 }
 
-export async function getDailyViews(days: number, offset: number) {
+export async function getViews(days: number, offset: number, dimension: 'date'|'yearWeek'|'yearMonth' = 'date') {
     const { startDate, endDate } = getDateRange(days, offset);
 
     const [res] = await client.runReport({
         property: `properties/${process.env.GA4_PROPERTY_ID}`,
         dateRanges: [{ startDate: startDate, endDate: endDate }],
-        dimensions: [{ name: 'date' }],
+        dimensions: [{ name: dimension }],
         metrics: [{ name: 'screenPageViews' }],
         keepEmptyRows: true,
     });
@@ -33,13 +33,13 @@ export async function getDailyViews(days: number, offset: number) {
     return result ?? [];
 }
 
-export async function getDailyUsers(days: number, offset: number) {
+export async function getUsers(days: number, offset: number, dimension: 'date'|'yearWeek'|'yearMonth' = 'date') {
     const { startDate, endDate } = getDateRange(days, offset);
 
     const [res] = await client.runReport({
         property: `properties/${process.env.GA4_PROPERTY_ID}`,
         dateRanges: [{ startDate: startDate, endDate: endDate }],
-        dimensions: [{ name: 'date' }],
+        dimensions: [{ name: dimension }],
         metrics: [{ name: 'activeUsers' }],
         keepEmptyRows: true,
     });

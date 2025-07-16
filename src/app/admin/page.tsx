@@ -1,17 +1,17 @@
 import LineChart from '@/components/admin/chart/LineChart';
 import { PopularPostCard, RecentPostCard, ReferralChannelCard, StatOverview, TrafficEnvironmentCard } from '@/components/admin/dashboard';
 import Card from '@/components/ui/card';
-import { fetchAnalyticsDaily } from '@/service/server/analytics';
+import { fetchAnalyticsTimeseries } from '@/service/server/analytics';
 
 export default async function AdminPage() {
-    const { data: { daily }} = await fetchAnalyticsDaily(30);
+    const { data: { timeseries }} = await fetchAnalyticsTimeseries(30);
     return (
         <div className='min-h-screen py-8'>
             <StatOverview showStatsLink={true} />
 
             <Card as='section' padding='md' className='mt-1 pb-1'>
                 <div className='relative'>
-                    <LineChart daily={daily} />
+                    <LineChart daily={timeseries} />
                 </div>
             </Card>
             <section className='mt-10'>

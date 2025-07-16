@@ -1,4 +1,4 @@
-import { getDailyViews, getDailyUsers } from '@/lib/ga4';
+import { getUsers, getViews } from '@/lib/ga4';
 import { formatToYYYYMMDD } from '@/lib/utils';
 
 export async function GET() {
@@ -12,7 +12,7 @@ export async function GET() {
         const todayStr = formatToYYYYMMDD(today);
         const yesterdayStr = formatToYYYYMMDD(yesterday);
 
-        const [viewsList, usersList] = await Promise.all([getDailyViews(days, 0), getDailyUsers(days, 0)]);
+        const [viewsList, usersList] = await Promise.all([getViews(days, 0), getUsers(days, 0)]);
 
         const totalViews = viewsList.reduce((sum, data) => sum + data.views, 0);
         const totalUsers = usersList.reduce((sum, data) => sum + data.users, 0);

@@ -84,7 +84,7 @@ export default function LineChart({ daily }: { daily: AnalyticsDaily[] }) {
             y: {
                 border: { display: false, dash: [3, 3], width: 0 },
                 grid: { drawTicks: false },
-                ticks: { display: false, stepSize: 10 },
+                ticks: { display: false, maxTicksLimit: 5 },
             },
         },
         onHover: (_event, elements) => {

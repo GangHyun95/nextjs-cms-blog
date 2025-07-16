@@ -5,16 +5,9 @@ export type ApiResponse<T> = {
 };
 
 export type AnalyticsSummary = {
-    views: {
-        today: number;
-        yesterday: number;
-        total: number;
-    };
-    users: {
-        today: number;
-        yesterday: number;
-        total: number;
-    };
+    today: number;
+    yesterday: number;
+    total: number;
 };
 
 export type AnalyticsDaily = {
@@ -23,11 +16,7 @@ export type AnalyticsDaily = {
     users: number;
 };
 
-export type TrafficStatsData = {
-    deviceStats: { label: string; value: string }[];
-    browserStats: { label: string; value: string }[];
+export type StatsData = {
+    label: string;
+    value: string;
 };
-
-export type ChannelStatsData = {
-    channelStats: { label: string; value: string }[];
-}
