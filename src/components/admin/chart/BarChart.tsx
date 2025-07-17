@@ -3,9 +3,9 @@
 import '@/lib/chartjs';
 import { Bar } from 'react-chartjs-2';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import type { Chart, ChartOptions } from 'chart.js';
+import type { Chart, ChartOptions, ScriptableContext } from 'chart.js';
 import { customTooltip } from '@/lib/chartjs/plugins/customTooltip';
-import ChartXAxis from './ChartXAxis';
+import ChartXAxisWithControls from './ChartXAxisWithControls';
 import { formatToYYYY_MM_DD } from '@/lib/utils';
 import { AnalyticsDaily } from '@/types/service';
 
@@ -48,13 +48,21 @@ export default function BarChart({ metric, displayMode, data, offset, setOffset 
         return rawData.map((current, i) => (i === 0 ? null : Math.abs(current - rawData[i - 1])));
     }, [rawData]);
 
+    const handleSelectLabel = (label: string) => {
+        console.log(label);
+    };
+
     const chartData = useMemo(() => ({
         labels,
         datasets: [
             {
                 label: `${displayMode === 'date' ? '일간' : displayMode === 'yearWeek' ? '주간' : '월간'} ${metric === 'views' ? '조회수' : '방문자'}`,
                 data: rawData,
-                backgroundColor: '#6366f1',
+                backgroundColor: (context: ScriptableContext<'bar'>) => {
+                    const index = context.dataIndex;
+                    const isHovered = hoveredIndex !== null && hoveredIndex === index;
+                    return `rgba(99, 102, 241, ${isHovered ? 1 : 0.3})`;
+                },
                 stack: 'total',
                 borderRadius: 0,
                 barPercentage: 0.3,
@@ -62,13 +70,18 @@ export default function BarChart({ metric, displayMode, data, offset, setOffset 
             {
                 label: ' ',
                 data: differenceData,
-                backgroundColor: '#bfc5cd',
+
+                backgroundColor: (context: ScriptableContext<'bar'>) => {
+                    const index = context.dataIndex;
+                    const isHovered = hoveredIndex !== null && hoveredIndex === index;
+                    return `rgba(191, 197, 205, ${isHovered ? 1 : 0.3})`;
+                },
                 stack: 'total',
                 borderRadius: 0,
                 barPercentage: 0.3,
             },
         ],
-    }), [labels, rawData, differenceData, displayMode, metric]);
+    }), [labels, rawData, differenceData, displayMode, metric, hoveredIndex]);
 
     const options = useMemo<ChartOptions<'bar'>>(() => ({
         responsive: true,
@@ -95,6 +108,12 @@ export default function BarChart({ metric, displayMode, data, offset, setOffset 
             const nextIndex = elements.length > 0 ? elements[0].index : null;
             setHoveredIndex(prev => (prev === nextIndex ? prev : nextIndex));
         },
+        onClick: (_event, elements, chart) => {
+            if (elements.length === 0) return;
+            const index = elements[0].index;
+            const label = chart.data.labels?.[index] as string;
+            handleSelectLabel(label);
+        }
     }), []);
 
     const handleHover = (index: number) => {
@@ -126,14 +145,14 @@ export default function BarChart({ metric, displayMode, data, offset, setOffset 
     return (
         <>
             <section className='w-full h-80 pb-[52.5px] px-8'>
-                <Bar ref={chartRef} data={chartData} options={options} />
+                <Bar ref={chartRef} data={chartData} options={options} className='cursor-pointer' />
             </section>
-            <ChartXAxis
+            <ChartXAxisWithControls
                 labels={labels}
                 hoveredIndex={hoveredIndex}
                 onHover={handleHover}
                 onLeave={handleLeave}
-                withArrows={true}
+                handleSelectLabel={handleSelectLabel}
                 displayMode={displayMode}
                 offset={offset}
                 setOffset={setOffset}
