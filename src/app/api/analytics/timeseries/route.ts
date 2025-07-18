@@ -12,7 +12,6 @@ export async function GET(req: Request) {
             getViews(days, offset, period),
             getUsers(days, offset, period),
         ]);
-
         
         let labels: string[] = [];
         const now = new Date();
@@ -21,16 +20,21 @@ export async function GET(req: Request) {
         if (period === 'date') {
             labels = Array.from({ length: days }, (_, i) => {
                 const date = new Date(now);
-                date.setDate(date.getDate() - (days - 1 - i));
+                date.setDate(date.getDate() - (days - 1) + i);
                 return formatToYYYYMMDD(date);
             });
         } else if (period === 'yearWeek') {
             for (let i = days - 1; i >= 0; i--) {
                 const date = new Date(now);
                 date.setDate(date.getDate() - i * 7);
+
                 const year = date.getFullYear();
-                const jan1 = new Date(year, 0, 1);
-                const diff = Math.floor((date.getTime() - jan1.getTime()) / (1000 * 60 * 60 * 24));
+                const jan4 = new Date(year, 0, 4);
+                const dayOfWeek = jan4.getDay();
+                const isoWeekStart = new Date(jan4);
+
+                isoWeekStart.setDate(jan4.getDate() - ((dayOfWeek + 6) % 7));
+                const diff = Math.floor((date.getTime() - isoWeekStart.getTime()) / (1000 * 60 * 60 * 24));
                 const week = Math.ceil((diff + 1) / 7);
                 labels.push(`${year}W${String(week).padStart(2, '0')}`);
             }

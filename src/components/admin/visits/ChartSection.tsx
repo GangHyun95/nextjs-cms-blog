@@ -87,6 +87,7 @@ export default function ChartSection() {
                 <BarChart
                     metric={metric}
                     mode={mode}
+                    selection={selection}
                     handleSelectLabel={handleSelectLabel}
                 />
             </div>

@@ -14,6 +14,7 @@ import { ChartSpinner } from '@/components/Spinner';
 type Props = {
     metric: 'views' | 'users';
     mode: 'date' | 'yearWeek' | 'yearMonth';
+    selection: { offset: number; days: number } | null;
     handleSelectLabel: (label: string) => void;
 };
 
@@ -23,7 +24,7 @@ const MAX_BY_MODE: Record<'date' | 'yearWeek' | 'yearMonth', number> = {
     yearMonth: 12,
 };
 
-export default function BarChart({ metric, mode, handleSelectLabel }: Props) {
+export default function BarChart({ metric, mode, handleSelectLabel, selection }: Props) {
     const chartRef = useRef<Chart<'bar'> | null>(null);
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
     const [count, setCount] = useState(MAX_BY_MODE[mode]);
@@ -31,6 +32,29 @@ export default function BarChart({ metric, mode, handleSelectLabel }: Props) {
 
     const { fetchTimeseries, isLoading } = useAnalyticsTimeseries();
     const [data, setData] = useState<AnalyticsDaily[]>([]);
+
+    
+    const selectedLabel = useMemo(() => {
+        if (!selection) return null;
+
+        const base = new Date();
+        base.setDate(base.getDate() - selection.offset);
+        base.setHours(0, 0, 0, 0);
+
+        if (mode === 'date') {
+            return formatToYYYY_MM_DD(base);
+        }
+        if (mode === 'yearWeek') {
+            const day = base.getDay() || 7;
+            base.setDate(base.getDate() - (day - 1));
+            return formatToYYYY_MM_DD(base);
+        }
+        if (mode === 'yearMonth') {
+            base.setDate(1);
+            return formatToYYYY_MM_DD(base);
+        }
+        return null;
+    }, [selection, mode]);
 
     useEffect(() => {
         const updateCount = () => {
@@ -68,8 +92,13 @@ export default function BarChart({ metric, mode, handleSelectLabel }: Props) {
                 data: rawData,
                 backgroundColor: (context: ScriptableContext<'bar'>) => {
                     const index = context.dataIndex;
+                    const label = context.chart.data.labels?.[index] as string;
+
                     const isHovered = hoveredIndex !== null && hoveredIndex === index;
-                    return `rgba(99, 102, 241, ${isHovered ? 1 : 0.3})`;
+                    const isSelected = selectedLabel !== null && label === selectedLabel;
+
+                    const opacity = isHovered || isSelected ? 1 : 0.3;
+                    return `rgba(99, 102, 241, ${opacity})`;
                 },
                 stack: 'total',
                 borderRadius: 0,
@@ -78,11 +107,15 @@ export default function BarChart({ metric, mode, handleSelectLabel }: Props) {
             {
                 label: ' ',
                 data: differenceData,
-
                 backgroundColor: (context: ScriptableContext<'bar'>) => {
                     const index = context.dataIndex;
+                    const label = context.chart.data.labels?.[index] as string;
+
                     const isHovered = hoveredIndex !== null && hoveredIndex === index;
-                    return `rgba(191, 197, 205, ${isHovered ? 1 : 0.3})`;
+                    const isSelected = selectedLabel !== null && label === selectedLabel;
+
+                    const opacity = isHovered || isSelected ? 1 : 0.3;
+                    return `rgba(191, 197, 205, ${opacity})`;
                 },
                 stack: 'total',
                 borderRadius: 0,
@@ -144,6 +177,8 @@ export default function BarChart({ metric, mode, handleSelectLabel }: Props) {
         setHoveredIndex(null);
         const chart = chartRef.current;
         if (!chart) return;
+
+        console.log('leave');
 
         chart.setActiveElements([]);
         chart.tooltip?.setActiveElements([], { x: 0, y: 0 });
