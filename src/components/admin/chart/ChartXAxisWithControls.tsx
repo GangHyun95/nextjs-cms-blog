@@ -10,7 +10,7 @@ type Props = {
     onHover: (index: number) => void;
     onLeave: () => void;
     handleSelectLabel: (label: string) => void;
-    displayMode: 'date' | 'yearWeek' | 'yearMonth';
+    mode: 'date' | 'yearWeek' | 'yearMonth';
     offset: number;
     setOffset: React.Dispatch<React.SetStateAction<number>>;
 };
@@ -21,7 +21,7 @@ export default function ChartXAxisWithControls({
     onHover,
     onLeave,
     handleSelectLabel,
-    displayMode = 'date',
+    mode = 'date',
     offset = 0,
     setOffset,
 }: Props) {
@@ -36,12 +36,12 @@ export default function ChartXAxisWithControls({
     };
 
     const handlePrev = () => {
-        const step = getOffsetStep(displayMode);
+        const step = getOffsetStep(mode);
         setOffset?.(prev => prev + step);
     };
 
     const handleNext = () => {
-        const step = getOffsetStep(displayMode);
+        const step = getOffsetStep(mode);
         setOffset?.(prev => Math.max(prev - step, 0));
     };
 
@@ -82,16 +82,16 @@ export default function ChartXAxisWithControls({
                                 'hover:bg-primary hover:text-background',
                             )}
                         >
-                            {displayMode === 'yearMonth' ? currentMonth + 1 : isToday ? '오늘' : label.getDate()}
+                            {mode === 'yearMonth' ? currentMonth + 1 : isToday ? '오늘' : label.getDate()}
                         </Button>
 
-                        {displayMode === 'yearMonth' && showYear && (
+                        {mode === 'yearMonth' && showYear && (
                             <span className='text-tiny'>
                                 {currentYear}년
                             </span>
                         )}
 
-                        {displayMode !== 'yearMonth' && showMonth && (
+                        {mode !== 'yearMonth' && showMonth && (
                             <span className='text-tiny'>
                                 {currentMonth + 1}월
                             </span>

@@ -105,3 +105,38 @@ export async function getReferralStats(days: number, offset: number) {
 
     return result ?? [];
 }
+
+export async function getSocialStats(days: number, offset: number) {
+    const { startDate, endDate } = getDateRange(days, offset);
+
+    const [res] = await client.runReport({
+        property: `properties/${process.env.GA4_PROPERTY_ID}`,
+        dateRanges: [{ startDate, endDate }],
+        dimensions: [{ name: 'sourcePlatform' }],
+        metrics: [{ name: 'activeUsers' }],
+    });
+
+    const result = res.rows?.map((row) => ({
+        platform: row.dimensionValues?.[0].value ?? '',
+        activeUsers: Number(row.metricValues?.[0].value ?? 0),
+    }));
+
+    return result ?? [];
+}
+
+export async function getSourceStats(days: number, offset: number) {
+    const { startDate, endDate } = getDateRange(days, offset);
+
+    console.log(startDate, endDate);
+    const [res] = await client.runReport({
+        property: `properties/${process.env.GA4_PROPERTY_ID}`,
+        dateRanges: [{ startDate, endDate }],
+        dimensions: [{ name: 'sessionSource' }],
+        metrics: [{ name: 'activeUsers' }],
+    });
+
+    return res.rows?.map((row) => ({
+        source: row.dimensionValues?.[0].value ?? '',
+        activeUsers: Number(row.metricValues?.[0].value ?? 0),
+    })) ?? [];
+}

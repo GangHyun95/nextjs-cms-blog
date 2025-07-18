@@ -5,65 +5,19 @@ import { Button } from '@/components/ui/button';
 import BarChart from '../chart/BarChart';
 import StatGroup from './StatGroup';
 import Card from '@/components/ui/card';
-import { useAnalyticsTimeseries } from '@/hooks/useAnalyticsTimeseries';
-import type { AnalyticsDaily } from '@/types/service';
-import { ChartSpinner } from '@/components/Spinner';
+import type { StatsData } from '@/types/service';
+import { getDisplayLabel } from '@/lib/utils';
 
-const statGroups = [
-    {
-        title: '검색',
-        data: [
-            { label: '네이버', value: 5 },
-            { label: '다음', value: 3 },
-            { label: '구글', value: 12 },
-            { label: '기타', value: 0 },
-        ],
-    },
-    {
-        title: 'SNS',
-        data: [
-            { label: '카카오톡', value: 6 },
-            { label: '페이스북', value: 0 },
-            { label: '인스타그램', value: 5 },
-            { label: '기타 SNS', value: 0 },
-        ],
-    },
-    {
-        title: '브라우저',
-        data: [
-            { label: 'Chrome', value: 78 },
-            { label: 'Safari', value: 15 },
-            { label: 'Firefox', value: 0 },
-            { label: 'Edge', value: 7 },
-        ],
-    },
-    {
-        title: '디바이스',
-        data: [
-            { label: 'PC', value: 0 },
-            { label: '모바일', value: 0 },
-        ],
-    },
-];
+type StatGroup = {
+    title: string;
+    data: StatsData[];
+};
 
 export default function ChartSection() {
     const [metric, setMetric] = useState<'views' | 'users'>('views');
     const [mode, setMode] = useState<'date' | 'yearWeek' | 'yearMonth'>('date');
-    const [offset, setOffset] = useState(0);
-    const [timeseries, setTimeseries] = useState<AnalyticsDaily[]>([]);
-    const { fetchTimeseries, isLoading } = useAnalyticsTimeseries();
+    const [selection, setSelection] = useState<{ offset: number; days: number } | null>(null);
 
-    useEffect(() => {
-        const count = mode === 'date' ? 21 : mode === 'yearWeek' ? 15 : 12;
-
-        const loadData = async () => {
-            const data = await fetchTimeseries(count, offset, mode);
-            setTimeseries(data);
-        };
-
-        loadData();
-    }, [mode, offset, fetchTimeseries]);
-    
     const metricButtons: { key: 'views' | 'users'; label: string }[] = [
         { key: 'views', label: '조회수' },
         { key: 'users', label: '방문자' },
@@ -75,10 +29,28 @@ export default function ChartSection() {
         { key: 'yearMonth', label: '월간' },
     ];
 
+    useEffect(() => {
+        const offset = 0;
+        const days = mode === 'date' ? 1 : mode === 'yearWeek' ? 7 : 30;
+        setSelection({ offset, days });
+    }, [mode]);
+    
+    const handleSelectLabel = (label: string) => {
+        const today = new Date();
+        const clicked = new Date(label);
+
+        today.setHours(0, 0, 0, 0);
+        clicked.setHours(0, 0, 0, 0);
+
+        const days = mode === 'date' ? 1 : mode === 'yearWeek' ? 7 : 30;
+        const offset = Math.round((today.getTime() - clicked.getTime()) / (1000 * 60 * 60 * 24)) - (days - 1);
+        setSelection({ offset, days });
+    };
+
     return (
         <Card as='section' padding='md' className='relative mt-1'>
             <div className='flex items-center'>
-                <h3 className='text-xl font-semibold flex-1'>2025.07</h3>
+                <h3 className='text-xl font-semibold flex-1'>{getDisplayLabel(selection, mode)}</h3>
 
                 <div className='flex gap-4'>
                     <div className='inline-flex rounded-xs overflow-hidden [&>*]:not-last:border-r-0'>
@@ -111,24 +83,17 @@ export default function ChartSection() {
                 </div>
             </div>
             
-            <div className='relative border-b'>
-                {isLoading ? (
-                    <ChartSpinner />
-                ) : (
-                    <BarChart
-                        metric={metric}
-                        displayMode={mode}
-                        data={timeseries}
-                        offset={offset}
-                        setOffset={setOffset}
-                    />
-                )}
+            <div className='relative border-b mt-5'>
+                <BarChart
+                    metric={metric}
+                    mode={mode}
+                    handleSelectLabel={handleSelectLabel}
+                />
             </div>
 
-            <div className='flex flex-col mt-10 pl-2.5 gap-10 xl:flex-row'>
-                {statGroups.map((group) => (
-                    <StatGroup key={group.title} group={group} totalViews={0} />
-                ))}
+            <div className='mt-10'>
+                <div className='text-lg'>{getDisplayLabel(selection, mode)} 방문자 통계</div>
+                <StatGroup selection={selection} />
             </div>
         </Card>
     );

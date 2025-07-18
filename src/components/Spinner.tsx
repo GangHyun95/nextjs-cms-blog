@@ -32,3 +32,11 @@ export function ChartSpinner() {
         </div>
     )
 }
+
+export function StatSpinner() {
+    return (
+        <div className='h-44 flex justify-center items-center mt-10'>
+            <LoaderCircle className='size-8 animate-spin text-primary' />
+        </div>
+    )
+}

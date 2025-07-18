@@ -75,3 +75,41 @@ export function formatToYYYY_MM_DD(date: Date | string): string {
 
     throw new Error('Invalid date format');
 }
+
+export function getDisplayLabel(selection: { offset: number; days: number } | null,mode: 'date' | 'yearWeek' | 'yearMonth'): string {
+    if (!selection) return '';
+
+    const base = new Date();
+    base.setDate(base.getDate() - selection.offset);
+    base.setHours(0, 0, 0, 0);
+
+    const format = (date: Date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}.${month}.${day}`;
+    };
+
+    if (mode === 'date') {
+        const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
+        const weekday = dayNames[base.getDay()];
+        return `${format(base)} ${weekday}`;
+    }
+
+    if (mode === 'yearWeek') {
+        const start = new Date(base);
+        const day = start.getDay() || 7;
+        start.setDate(start.getDate() - (day - 1));
+        const end = new Date(start);
+        end.setDate(start.getDate() + 6);
+        return `${format(start)} ~ ${format(end)}`;
+    }
+
+    if (mode === 'yearMonth') {
+        const year = base.getFullYear();
+        const month = String(base.getMonth() + 1).padStart(2, '0');
+        return `${year}.${month}`;
+    }
+
+    return '';
+}

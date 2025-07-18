@@ -33,11 +33,11 @@ export async function fetchAnalyticsTimeseries(
     return data;
 }
 
-export async function fetchTrafficStats(days: number, offset:number = 0): Promise<ApiResponse<{ deviceStats: StatsData[]; browserStats: StatsData[] }>> {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/analytics/traffic?days=${days}&offset=${offset}`, {
-        next: { revalidate: 600 },
-    });
-
+export async function fetchTrafficStats(days: number, offset:number = 0, isServer: boolean = true): Promise<ApiResponse<{ deviceStats: StatsData[]; browserStats: StatsData[] }>> {
+    const url = `${process.env.NEXT_PUBLIC_SITE_URL}/api/analytics/traffic?days=${days}&offset=${offset}`;
+    const options = isServer ? { next: { revalidate: 600 } } : {};
+    
+    const res = await fetch(url, options);
     const data = await res.json();
 
     if (!data.success) {
@@ -47,11 +47,26 @@ export async function fetchTrafficStats(days: number, offset:number = 0): Promis
     return data;
 }
 
-export async function fetchChannelStats(days: number, offset:number = 0): Promise<ApiResponse<{ channelStats: StatsData[] }>> {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/analytics/channel?days=${days}&offset=${offset}`, {
-        next: { revalidate: 600 },
-    });
+export async function fetchChannelStats(days: number, offset:number = 0, isServer: boolean = true): Promise<ApiResponse<{ channelStats: StatsData[] }>> {
+    const url = `${process.env.NEXT_PUBLIC_SITE_URL}/api/analytics/channel?days=${days}&offset=${offset}`;
+    const options = isServer ? { next: { revalidate: 600 } } : {};
 
+    
+    const res = await fetch(url, options);
+    const data = await res.json();
+
+    if (!data.success) {
+        throw new Error(data.message);
+    }
+
+    return data;
+}
+
+export async function fetchSourceStats(days: number, offset = 0, isServer = true): Promise<ApiResponse<{ searchStats: StatsData[]; snsStats: StatsData[] }>> {
+    const url = `${process.env.NEXT_PUBLIC_SITE_URL}/api/analytics/sources?days=${days}&offset=${offset}`;
+    const options = isServer ? { next: { revalidate: 600 } } : {};
+
+    const res = await fetch(url, options);
     const data = await res.json();
 
     if (!data.success) {

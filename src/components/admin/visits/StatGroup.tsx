@@ -1,72 +1,51 @@
+'use client';
+
+import { useAnalyticsStats } from '@/hooks/useAnalytics';
+import { useEffect, useState } from 'react';
+import StatCountGroup from './StatCountGroup';
+import StatPercentGroup from './StatPercentGroup';
+import { StatSpinner } from '@/components/Spinner';
+
 type StatItem = {
     label: string;
     value: number | string;
 };
 
-type StatGroup = {
-    title: string;
-    data: StatItem[];
-};
-
 type Props = {
-    group: StatGroup;
-    totalViews: number;
+    selection: { offset: number; days: number } | null;
 };
 
-export default function StatGroup({ group, totalViews }: Props) {
-    const isItemBarGroup = group.title === '브라우저' || group.title === '디바이스';
+export default function StatGroup({ selection }: Props) {
+    const [data, setData] = useState<{
+        searchStats: StatItem[];
+        snsStats: StatItem[];
+        browserStats: StatItem[];
+        deviceStats: StatItem[];
+    } | null>(null);
+    const { fetchStats, isLoading } = useAnalyticsStats();
 
-    const total = group.data.reduce((sum, item) => {
-        const value = typeof item.value === 'number' ? item.value : 0;
-        return sum + value;
-    }, 0);
+    useEffect(() => {
+        if (!selection) return;
 
-    const percentage = totalViews > 0 ? (total / totalViews) * 100 : 0;
+        const load = async () => {
+            const { searchStats, snsStats, browserStats, deviceStats } = await fetchStats(
+                selection.days,
+                selection.offset
+            );
+            setData({ searchStats, snsStats, browserStats, deviceStats });
+        };
 
-    let barColor = 'bg-muted-foreground';
-    if (group.title === '검색') barColor = 'bg-primary';
-    else if (group.title === 'SNS') barColor = 'bg-chart-2';
+        load();
+    }, [selection, fetchStats]);
+
+    if (isLoading || !data) return <StatSpinner />
 
     return (
-        <div className='flex-1 flex flex-col gap-3'>
-            <div className='flex text-sm font-semibold'>
-                <span className='flex-1'>{group.title}</span>
-                {!isItemBarGroup && <span>{total}</span>}
-            </div>
-
-            <div className='w-full h-0.5 bg-muted'>
-                {!isItemBarGroup && (<div className={`h-full ${barColor}`} style={{ width: `${percentage}%` }} />)}
-            </div>
-
-            <ul className='flex flex-col gap-3 text-xs text-muted-foreground'>
-                {group.data.map((item) => {
-                    const value = typeof item.value === 'number' ? item.value : 0;
-
-                    if (isItemBarGroup) {
-                        const groupTotal = total === 0 ? 1 : total;
-                        const itemPercent = (value / groupTotal) * 100;
-
-                        return (
-                            <li key={item.label} className='flex flex-col gap-2'>
-                                <div className='flex'>
-                                    <span className='flex-1'>{item.label}</span>
-                                    <span>{itemPercent.toFixed(0)}%</span>
-                                </div>
-                                <div className='w-full h-0.5 bg-muted'>
-                                    <div className='h-full bg-muted-foreground' style={{ width: `${itemPercent}%` }} />
-                                </div>
-                            </li>
-                        );
-                    }
-
-                    return (
-                        <li key={item.label} className='flex'>
-                            <span className='flex-1'>{item.label}</span>
-                            <span>{value}</span>
-                        </li>
-                    );
-                })}
-            </ul>
+        <div className='flex flex-col mt-10 pl-2.5 gap-10 xl:flex-row'>
+            <StatCountGroup title='검색' data={data.searchStats} />
+            <StatCountGroup title='SNS' data={data.snsStats} />
+            <StatPercentGroup title='브라우저' data={data.browserStats} />
+            <StatPercentGroup title='디바이스' data={data.deviceStats} />
         </div>
     );
 }
