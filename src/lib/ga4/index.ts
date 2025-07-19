@@ -1,5 +1,5 @@
+import { formatDate } from '@/utils/date';
 import { BetaAnalyticsDataClient } from '@google-analytics/data';
-import { formatToYYYY_MM_DD } from '../utils';
 
 const client = new BetaAnalyticsDataClient({
     credentials: JSON.parse(process.env.GA4_CREDENTIALS!),
@@ -11,7 +11,7 @@ function getDateRange(days: number, offset = 0) {
 
     const start = new Date(end);
     start.setDate(end.getDate() - days + 1);
-    return { startDate: formatToYYYY_MM_DD(start), endDate: formatToYYYY_MM_DD(end) };
+    return { startDate: formatDate(start), endDate: formatDate(end) };
 }
 
 export async function getViews(days: number, offset: number, dimension: 'date'|'yearWeek'|'yearMonth' = 'date') {
@@ -127,7 +127,6 @@ export async function getSocialStats(days: number, offset: number) {
 export async function getSourceStats(days: number, offset: number) {
     const { startDate, endDate } = getDateRange(days, offset);
 
-    console.log(startDate, endDate);
     const [res] = await client.runReport({
         property: `properties/${process.env.GA4_PROPERTY_ID}`,
         dateRanges: [{ startDate, endDate }],

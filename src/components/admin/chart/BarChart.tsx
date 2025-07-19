@@ -6,10 +6,10 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Chart, ChartOptions, ScriptableContext } from 'chart.js';
 import { customTooltip } from '@/lib/chartjs/plugins/customTooltip';
 import ChartXAxisWithControls from './ChartXAxisWithControls';
-import { formatToYYYY_MM_DD } from '@/lib/utils';
-import { AnalyticsDaily } from '@/types/service';
+import { AnalyticsDaily } from '@/types/analytics';
 import { useAnalyticsTimeseries } from '@/hooks/useAnalytics';
 import { ChartSpinner } from '@/components/Spinner';
+import { formatDate } from '@/utils/date';
 
 type Props = {
     metric: 'views' | 'users';
@@ -33,7 +33,6 @@ export default function BarChart({ metric, mode, handleSelectLabel, selection }:
     const { fetchTimeseries, isLoading } = useAnalyticsTimeseries();
     const [data, setData] = useState<AnalyticsDaily[]>([]);
 
-    
     const selectedLabel = useMemo(() => {
         if (!selection) return null;
 
@@ -42,16 +41,16 @@ export default function BarChart({ metric, mode, handleSelectLabel, selection }:
         base.setHours(0, 0, 0, 0);
 
         if (mode === 'date') {
-            return formatToYYYY_MM_DD(base);
+            return formatDate(base);
         }
         if (mode === 'yearWeek') {
             const day = base.getDay() || 7;
             base.setDate(base.getDate() - (day - 1));
-            return formatToYYYY_MM_DD(base);
+            return formatDate(base);
         }
         if (mode === 'yearMonth') {
             base.setDate(1);
-            return formatToYYYY_MM_DD(base);
+            return formatDate(base);
         }
         return null;
     }, [selection, mode]);
@@ -76,9 +75,13 @@ export default function BarChart({ metric, mode, handleSelectLabel, selection }:
         loadData();
     }, [offset, mode, fetchTimeseries]);
 
-    const sliced = useMemo(() => data.slice(-count), [data, count]);
-    const labels = useMemo(() => sliced.map(item => formatToYYYY_MM_DD(item.date)), [sliced]);
-    const rawData = useMemo(() => sliced.map((data) => data[metric]), [sliced, metric]);
+    const { labels, rawData } = useMemo(() => {
+        const sliced = data.slice(-count);
+        return {
+            labels: sliced.map(item => item.date),
+            rawData: sliced.map(item => item[metric]),
+        };
+    }, [data, count, metric]);
     
     const differenceData = useMemo(() => {
         return rawData.map((current, i) => (i === 0 ? null : Math.abs(current - rawData[i - 1])));
@@ -177,8 +180,6 @@ export default function BarChart({ metric, mode, handleSelectLabel, selection }:
         setHoveredIndex(null);
         const chart = chartRef.current;
         if (!chart) return;
-
-        console.log('leave');
 
         chart.setActiveElements([]);
         chart.tooltip?.setActiveElements([], { x: 0, y: 0 });

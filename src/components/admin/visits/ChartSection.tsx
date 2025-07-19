@@ -1,12 +1,14 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+
 import { Button } from '@/components/ui/button';
+import Card from '@/components/ui/card';
+import type { StatsData } from '@/types/analytics';
+import { getDisplayLabel } from '@/utils/date';
+
 import BarChart from '../chart/BarChart';
 import StatGroup from './StatGroup';
-import Card from '@/components/ui/card';
-import type { StatsData } from '@/types/service';
-import { getDisplayLabel } from '@/lib/utils';
 
 type StatGroup = {
     title: string;
@@ -93,7 +95,7 @@ export default function ChartSection() {
             </div>
 
             <div className='mt-10'>
-                <div className='text-lg'>{getDisplayLabel(selection, mode)} 방문자 통계</div>
+                <div className='text-lg'>방문자 통계</div>
                 <StatGroup selection={selection} />
             </div>
         </Card>

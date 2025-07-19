@@ -5,8 +5,7 @@ import { Line } from 'react-chartjs-2';
 import { useMemo, useEffect, useRef, useState } from 'react';
 import type { ChartOptions, Chart } from 'chart.js';
 import { customTooltip } from '@/lib/chartjs/plugins/customTooltip';
-import { AnalyticsDaily } from '@/types/service';
-import { formatToYYYY_MM_DD } from '@/lib/utils';
+import { AnalyticsDaily } from '@/types/analytics';
 
 import ChartXAxis from './ChartXAxis';
 
@@ -32,12 +31,12 @@ export default function LineChart({ daily }: { daily: AnalyticsDaily[] }) {
         return () => window.removeEventListener('resize', updateDays);
     }, []);
 
-    const sliced = useMemo(() => {
-        if (daysToShow === null) return [];
-        return daily.slice(-daysToShow);
+    const { sliced, labels } = useMemo(() => {
+        if (daysToShow === null) return { sliced: [], labels: [] };
+        const sliced = daily.slice(-daysToShow);
+        const labels = sliced.map(item => item.date);
+        return { sliced, labels };
     }, [daily, daysToShow]);
-
-    const labels = useMemo(() => sliced.map(item => formatToYYYY_MM_DD(item.date)), [sliced]);
 
     const data = useMemo(() => ({
         labels,

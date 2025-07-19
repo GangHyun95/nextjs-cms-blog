@@ -7,8 +7,9 @@ import { Button } from '@/components/ui/button';
 import { useLogin } from '@/hooks/useAuth';
 import { useAppDispatch } from '@/store/hooks';
 import { setAccessToken } from '@/store/slices/authSlice';
-import { cn, validate } from '@/lib/utils';
+import { cn } from '@/lib/utils';
 import { InlineSpinner } from '../Spinner';
+import { validate } from '@/utils/auth';
 
 
 export default function LoginForm() {

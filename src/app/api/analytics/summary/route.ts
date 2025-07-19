@@ -1,5 +1,5 @@
 import { getUsers, getViews } from '@/lib/ga4';
-import { formatToYYYYMMDD } from '@/lib/utils';
+import { formatDate, parseCompactDate } from '@/utils/date';
 
 export async function GET() {
     try {
@@ -9,8 +9,8 @@ export async function GET() {
         const yesterday = new Date(today);
         yesterday.setDate(today.getDate() - 1);
 
-        const todayStr = formatToYYYYMMDD(today);
-        const yesterdayStr = formatToYYYYMMDD(yesterday);
+        const todayStr = formatDate(today);
+        const yesterdayStr = formatDate(yesterday);
 
         const [viewsList, usersList] = await Promise.all([getViews(days, 0), getUsers(days, 0)]);
 
@@ -20,13 +20,13 @@ export async function GET() {
         const viewsByDate: Record<string, number> = {};
         for (let i = 0; i < viewsList.length; i++) {
             const item = viewsList[i];
-            viewsByDate[item.date] = item.views;
+            viewsByDate[parseCompactDate(item.date)] = item.views;
         }
 
         const usersByDate: Record<string, number> = {};
         for (let i = 0; i < usersList.length; i++) {
             const item = usersList[i];
-            usersByDate[item.date] = item.users;
+            usersByDate[parseCompactDate(item.date)] = item.users;
         }
 
         return Response.json({
