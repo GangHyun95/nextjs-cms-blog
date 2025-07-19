@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 
-export default function CategoryItemEditing({ label, onCancel }: { label: string; onCancel: () => void }) {
+export default function CategoryItemEdit({ label, onCancel }: { label: string; onCancel: () => void }) {
     const [value, setValue] = useState(label);
 
     return (

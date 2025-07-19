@@ -1,5 +1,5 @@
 import AdminPageHeader from '@/components/admin/common/AdminPageHeader';
-import CategoryItem from '@/components/admin/categories/CategoryItem';
+import CategoryList from '@/components/admin/categories/CategoryList';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 
@@ -45,14 +45,7 @@ export default function CategoriesPage() {
                 }
             />
             <Card padding='sm' className='flex flex-col space-y-4 bg-slate-200'>
-                {dummy.map((group) => (
-                    <section key={group.id}>
-                        <CategoryItem label={group.label} isParent />
-                        {group.children.map(child => (
-                            <CategoryItem key={child.id} label={child.label} />
-                        ))}
-                    </section>
-                ))}
+                <CategoryList items={dummy}/>
                 <Button className='self-end' size='lg'>변경사항 저장</Button>
             </Card>
         </div>

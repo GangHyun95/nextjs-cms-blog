@@ -4,28 +4,41 @@ import { cn } from '@/lib/utils';
 import { ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 import CategoryItemView from './CategoryItemView';
-import CategoryItemEditing from './CategoryItemEditing';
+import CategoryItemEdit from './CategoryItemEdit';
 
-export default function CategoryItem({ label, isParent = false }: { label: string; isParent?: boolean }) {
+type Props = {
+    label: string;
+    isParent?: boolean;
+    children?: React.ReactNode;
+};
+
+export default function CategoryItem({ label, isParent = false, children }: Props) {
     const [isEditing, setIsEditing] = useState(false);
 
     return (
-        <div
-            className={cn(
-                'flex items-center h-13 border-b last:border-0 bg-background pr-4',
-                isParent ? 'font-medium text-foreground' : 'ml-9 text-muted-foreground'
-            )}
-        >
-            {isParent && (
-                <div className='min-w-9 h-full flex justify-center items-center cursor-pointer bg-muted'>
-                    <ChevronDown className='size-4 text-muted-foreground' />
+        <li className='flex flex-col'>
+            <div className='flex h-13 items-center border-b'>
+                {isParent && (
+                    <div className='min-w-9 h-full flex justify-center items-center cursor-pointer bg-muted'>
+                        <ChevronDown className='size-4 text-muted-foreground' />
+                    </div>
+                )}
+                <div
+                    className={cn(
+                        'flex items-center bg-background pr-4 flex-1 h-full',
+                        isParent ? 'font-medium text-foreground' : 'ml-9 text-muted-foreground'
+                    )}
+                >
+                    <div className='flex items-center h-full w-full'>
+                        {isEditing ? (
+                            <CategoryItemEdit label={label} onCancel={() => setIsEditing(false)} />
+                        ) : (
+                            <CategoryItemView label={label} onEdit={() => setIsEditing(true)} />
+                        )}
+                    </div>
                 </div>
-            )}
-            {isEditing ? (
-                <CategoryItemEditing label={label} onCancel={() => setIsEditing(false)} />
-            ) : (
-                <CategoryItemView label={label} onEdit={() => setIsEditing(true)} />
-            )}
-        </div>
-    );
+            </div>
+            {isParent && <ul>{children}</ul>}
+        </li>
+    )
 }
