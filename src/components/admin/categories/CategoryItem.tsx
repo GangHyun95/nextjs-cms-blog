@@ -1,10 +1,12 @@
 'use client';
 
-import { cn } from '@/lib/utils';
 import { ChevronDown } from 'lucide-react';
 import { useState } from 'react';
-import CategoryItemView from './CategoryItemView';
+
+import { cn } from '@/lib/utils';
+
 import CategoryItemEdit from './CategoryItemEdit';
+import CategoryItemView from './CategoryItemView';
 
 type Props = {
     label: string;

@@ -1,15 +1,17 @@
 'use client';
 
 import '@/lib/chartjs';
-import { Bar } from 'react-chartjs-2';
-import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Chart, ChartOptions, ScriptableContext } from 'chart.js';
-import { customTooltip } from '@/lib/chartjs/plugins/customTooltip';
-import ChartXAxisWithControls from './ChartXAxisWithControls';
-import { AnalyticsDaily } from '@/types/analytics';
-import { useAnalyticsTimeseries } from '@/hooks/useAnalytics';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Bar } from 'react-chartjs-2';
+
 import { ChartSpinner } from '@/components/Spinner';
+import { useAnalyticsTimeseries } from '@/hooks/useAnalytics';
+import { customTooltip } from '@/lib/chartjs/plugins/customTooltip';
+import { AnalyticsDaily } from '@/types/analytics';
 import { formatDate } from '@/utils/date';
+
+import ChartXAxisWithControls from './ChartXAxisWithControls';
 
 type Props = {
     metric: 'views' | 'users';

@@ -1,8 +1,9 @@
 'use client';
 
+import { ChevronDown } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { ChevronDown } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
 
 export default function RoleSelectDropdown({ defaultValue }: { defaultValue: string }) {

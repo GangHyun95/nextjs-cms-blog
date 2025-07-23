@@ -1,5 +1,6 @@
-import { Button } from '@/components/ui/button';
 import { GripVertical } from 'lucide-react';
+
+import { Button } from '@/components/ui/button';
 
 type Props = {
     label: string;

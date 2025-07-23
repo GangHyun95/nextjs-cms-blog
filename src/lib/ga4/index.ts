@@ -1,5 +1,6 @@
-import { formatDate } from '@/utils/date';
 import { BetaAnalyticsDataClient } from '@google-analytics/data';
+
+import { formatDate } from '@/utils/date';
 
 const client = new BetaAnalyticsDataClient({
     credentials: JSON.parse(process.env.GA4_CREDENTIALS!),

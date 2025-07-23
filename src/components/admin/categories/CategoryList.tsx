@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import CategoryItem from './CategoryItem';
 import { ReactSortable } from 'react-sortablejs';
+
+import CategoryItem from './CategoryItem';
 
 type Item = {
     id: number;

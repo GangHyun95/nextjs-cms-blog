@@ -1,9 +1,10 @@
 'use client';
 
 import '@/lib/chartjs';
-import { Line } from 'react-chartjs-2';
-import { useMemo, useEffect, useRef, useState } from 'react';
 import type { ChartOptions, Chart } from 'chart.js';
+import { useMemo, useEffect, useRef, useState } from 'react';
+import { Line } from 'react-chartjs-2';
+
 import { customTooltip } from '@/lib/chartjs/plugins/customTooltip';
 import { AnalyticsDaily } from '@/types/analytics';
 

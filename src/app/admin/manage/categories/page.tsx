@@ -1,5 +1,5 @@
-import AdminPageHeader from '@/components/admin/common/AdminPageHeader';
 import CategoryList from '@/components/admin/categories/CategoryList';
+import AdminPageHeader from '@/components/admin/shared/AdminPageHeader';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 

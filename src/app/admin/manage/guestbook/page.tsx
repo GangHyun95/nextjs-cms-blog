@@ -1,7 +1,7 @@
 import { Search } from 'lucide-react';
 
-import AdminPageHeader from '@/components/admin/common/AdminPageHeader';
-import UserNoteItem from '@/components/admin/common/UserNoteItem';
+import AdminPageHeader from '@/components/admin/shared/AdminPageHeader';
+import UserNoteItem from '@/components/admin/shared/UserNoteItem';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 

@@ -1,7 +1,7 @@
 import { PencilLine, Search } from 'lucide-react';
 
-import AdminPageHeader from '@/components/admin/common/AdminPageHeader';
 import PostListItem from '@/components/admin/posts/PostListItem';
+import AdminPageHeader from '@/components/admin/shared/AdminPageHeader';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 

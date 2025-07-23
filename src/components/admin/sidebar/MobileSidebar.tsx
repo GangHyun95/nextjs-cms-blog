@@ -1,10 +1,12 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+
 import { cn } from '@/lib/utils';
+
 import SidebarContent from './SidebarContent';
-import { usePathname } from 'next/navigation';
 
 type Props = {
     open: boolean;

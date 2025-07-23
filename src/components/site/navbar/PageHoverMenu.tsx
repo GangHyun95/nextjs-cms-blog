@@ -1,5 +1,6 @@
-import Link from 'next/link';
 import { Play } from 'lucide-react';
+import Link from 'next/link';
+
 import { HoverCard, HoverCardTrigger, HoverCardContent } from '@/components/ui/hover-card';
 
 export default function PageHoverMenu() {

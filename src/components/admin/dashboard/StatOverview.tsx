@@ -1,8 +1,9 @@
+import { BarChartBig } from 'lucide-react';
+import Link from 'next/link';
+
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { fetchAnalyticsSummary } from '@/service/server/analytics';
-import { BarChartBig } from 'lucide-react';
-import Link from 'next/link';
 
 export default async function StatOverview({ showStatsLink = true }: { showStatsLink?: boolean }) {
     const { data: summary } = await fetchAnalyticsSummary();

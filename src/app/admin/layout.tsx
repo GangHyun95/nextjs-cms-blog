@@ -1,7 +1,8 @@
-import Navbar from '@/components/admin/layout/navbar';
-import Sidebar from '@/components/admin/layout/sidebar';
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation';
+
+import Navbar from '@/components/admin/navbar';
+import Sidebar from '@/components/admin/sidebar';
 
 export default async function AdminLayout({ children }: { children: React.ReactNode}) {
     const cookie = await cookies();

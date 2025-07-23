@@ -1,10 +1,11 @@
 'use client';
 
+import { Layers } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { cn } from '@/lib/utils';
 import { useMemo } from 'react';
-import { Ellipsis, Folder, Layers } from 'lucide-react';
+
+import { cn } from '@/lib/utils';
 
 type NavItem = {
     label: string;

@@ -1,7 +1,8 @@
-import React from 'react';
-import Card from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { FileText } from 'lucide-react';
+import React from 'react';
+
+import { Button } from '@/components/ui/button';
+import Card from '@/components/ui/card';
 
 export default function UserNoteItem({ type }: { type: 'comment' | 'guestbook'}) {
     return (

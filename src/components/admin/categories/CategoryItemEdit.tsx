@@ -1,7 +1,8 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import { useState } from 'react';
+
+import { Button } from '@/components/ui/button';
 
 export default function CategoryItemEdit({ label, onCancel }: { label: string; onCancel: () => void }) {
     const [value, setValue] = useState(label);

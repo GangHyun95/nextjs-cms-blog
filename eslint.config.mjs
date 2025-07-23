@@ -11,6 +11,30 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
+  {
+    rules: {
+      quotes: ['warn', 'single', { allowTemplateLiterals: true }],
+      'jsx-quotes': ['warn', 'prefer-single'],
+      'import/order': [
+        'warn',
+        {
+          groups: [
+            'external',
+            'internal',
+            ['parent', 'sibling', 'index'],
+          ],
+          pathGroups: [
+            {
+              pattern: '@/**',
+              group: 'internal',
+            },
+          ],
+          'newlines-between': 'always-and-inside-groups',
+          alphabetize: { order: 'asc', caseInsensitive: true },
+        },
+      ],
+    },
+  },
 ];
 
 export default eslintConfig;

@@ -1,5 +1,6 @@
-import TooltipIconButton from '@/components/common/TooltipIconButton';
 import { Search } from 'lucide-react';
+
+import TooltipIconButton from '@/components/common/TooltipIconButton';
 
 export default function SearchButton() {
     return (

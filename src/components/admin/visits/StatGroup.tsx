@@ -1,10 +1,13 @@
 'use client';
 
-import { useAnalyticsStats } from '@/hooks/useAnalytics';
 import { useEffect, useState } from 'react';
+
+import { StatSpinner } from '@/components/Spinner';
+import { useAnalyticsStats } from '@/hooks/useAnalytics';
+
 import StatCountGroup from './StatCountGroup';
 import StatPercentGroup from './StatPercentGroup';
-import { StatSpinner } from '@/components/Spinner';
+
 
 type StatItem = {
     label: string;

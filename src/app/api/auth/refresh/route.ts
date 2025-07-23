@@ -1,5 +1,6 @@
-import { supabase } from '@/lib/supabase/server';
 import { cookies } from 'next/headers';
+
+import { supabase } from '@/lib/supabase/server';
 
 export async function POST() {
     try {

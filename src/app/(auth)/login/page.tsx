@@ -1,5 +1,6 @@
-import LoginForm from '@/components/auth/LoginForm';
 import Image from 'next/image';
+
+import LoginForm from '@/components/auth/LoginForm';
 
 export default async function LoginAdminPage() {
     return (

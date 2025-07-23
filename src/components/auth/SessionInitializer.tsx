@@ -1,9 +1,11 @@
 'use client';
 
+import { useEffect } from 'react';
+
 import { useRefreshSession } from '@/hooks/useAuth';
 import { useAppDispatch } from '@/store/hooks';
 import { setAccessToken } from '@/store/slices/authSlice';
-import { useEffect } from 'react';
+
 import { FullPageSpinner } from '../Spinner';
 
 export default function SessionInitializer() {

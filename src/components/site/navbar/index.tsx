@@ -3,10 +3,11 @@
 import Link from 'next/link';
 import { useState } from 'react';
 
+import HamburgerButton from '@/components/common/HamburgerButton';
+
 import PageHoverMenu from './PageHoverMenu';
 import SearchButton from './SearchButton';
 import ResponsiveSidebar from '../sidebar/ResponsiveSidebar';
-import HamburgerButton from '@/components/common/HamburgerButton';
 
 export default function Navbar() {
     const [sidebarOpen, setSidebarOpen] = useState(false);

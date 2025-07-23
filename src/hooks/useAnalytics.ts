@@ -1,5 +1,6 @@
-import { fetchAnalyticsTimeseries, fetchChannelStats, fetchSourceStats, fetchTrafficStats } from '@/service/server/analytics';
 import { useState, useCallback } from 'react';
+
+import { fetchAnalyticsTimeseries, fetchChannelStats, fetchSourceStats, fetchTrafficStats } from '@/service/server/analytics';
 
 export function useAnalyticsTimeseries() {
     const [isLoading, setIsLoading] = useState(false);

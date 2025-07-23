@@ -1,6 +1,8 @@
 import React from 'react';
-import PostActionButtons from './PostActionButtons';
+
 import Card from '@/components/ui/card';
+
+import PostActionButtons from './PostActionButtons';
 
 export default function PostListItem() {
     return (

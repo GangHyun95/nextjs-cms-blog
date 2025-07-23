@@ -1,9 +1,10 @@
 'use client';
 
-import Link from 'next/link';
 import { BarChartBig, BookOpenText, FileText, Folders, LayoutDashboard, MessageCircle, UserCog } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+
 import { cn } from '@/lib/utils';
 
 type NavItem = {

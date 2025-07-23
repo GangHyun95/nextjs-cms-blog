@@ -7,8 +7,8 @@ import Card from '@/components/ui/card';
 import type { StatsData } from '@/types/analytics';
 import { getDisplayLabel } from '@/utils/date';
 
-import BarChart from '../chart/BarChart';
 import StatGroup from './StatGroup';
+import BarChart from '../chart/BarChart';
 
 type StatGroup = {
     title: string;
