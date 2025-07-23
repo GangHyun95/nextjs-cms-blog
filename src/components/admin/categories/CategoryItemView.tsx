@@ -9,7 +9,7 @@ type Props = {
 export default function CategoryItemView({ label, onEdit }: Props) {
     return (
         <>
-            <div className='min-w-10 h-full flex justify-center items-center cursor-move'>
+            <div className='min-w-10 h-full flex justify-center items-center cursor-move drag-handle'>
                 <GripVertical className='size-4 text-muted-foreground' />
             </div>
             <span className='flex-1 text-sm'>{label}</span>

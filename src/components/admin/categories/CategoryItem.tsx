@@ -16,7 +16,7 @@ export default function CategoryItem({ label, isParent = false, children }: Prop
     const [isEditing, setIsEditing] = useState(false);
 
     return (
-        <li className='flex flex-col'>
+        <div className='flex flex-col'>
             <div className='flex h-13 items-center border-b'>
                 {isParent && (
                     <div className='min-w-9 h-full flex justify-center items-center cursor-pointer bg-muted'>
@@ -38,7 +38,7 @@ export default function CategoryItem({ label, isParent = false, children }: Prop
                     </div>
                 </div>
             </div>
-            {isParent && <ul>{children}</ul>}
-        </li>
+            {isParent && children}
+        </div>
     )
 }
