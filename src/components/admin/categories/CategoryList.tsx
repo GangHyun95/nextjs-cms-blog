@@ -38,6 +38,7 @@ export default function CategoryList({ items }: Props) {
             animation={150}
             handle='.drag-handle'
             className='space-y-4'
+            ghostClass='opacity-0'
         >
             {categories.map((category) => (
                 <li key={category.id}>

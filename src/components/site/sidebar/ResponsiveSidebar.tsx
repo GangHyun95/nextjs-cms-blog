@@ -11,7 +11,7 @@ type Props = {
     onClose: () => void;
 };
 
-export default function MobileSidebar({ open, onClose }: Props) {
+export default function ResponsiveSidebar({ open, onClose }: Props) {
     const [mounted, setMounted] = useState(false);
     const pathname = usePathname();
 
@@ -37,14 +37,14 @@ export default function MobileSidebar({ open, onClose }: Props) {
 
     useEffect(() => {
         if (open) onClose();
-    }, [pathname])
+    },[pathname])
 
     if (!mounted) return null;
 
     return createPortal(
         <div
             className={cn(
-                'fixed inset-0 md:hidden',
+                'fixed inset-0 2xl:hidden',
                 open ? 'pointer-events-auto' : 'pointer-events-none'
             )}
         >

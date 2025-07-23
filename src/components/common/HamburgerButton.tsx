@@ -1,5 +1,5 @@
+import TooltipIconButton from '@/components/common/TooltipIconButton';
 import { cn } from '@/lib/utils';
-import TooltipIconButton from '../common/TooltipIconButton';
 
 type Props = {
     open?: boolean;
@@ -10,7 +10,7 @@ export default function HamburgerButton({ open, onClick }: Props) {
     return (
         <TooltipIconButton
             label={open ? '메뉴 닫기' : '메뉴 열기'}
-            className='2xl:hidden relative rounded-full size-11'
+            className='relative rounded-full size-11'
             side='right'
             onClick={onClick}
         >
