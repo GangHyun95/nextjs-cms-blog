@@ -9,7 +9,7 @@ export default function PageHoverMenu() {
             <HoverCardTrigger asChild>
                 <div className='h-full items-center space-x-0.5 hidden md:flex cursor-pointer'>
                     <span>Page</span>
-                    <Play className='fill-muted-foreground size-2 text-muted-foreground rotate-90 align-middle translate-y-[1px]' />
+                    <Play className='fill-current size-2 text-current rotate-90 align-middle translate-y-[1px]' />
                 </div>
             </HoverCardTrigger>
 

@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 
@@ -13,14 +14,16 @@ export default function TooltipIconButton({ label, onClick, children, side='top'
     return (
         <Tooltip>
             <TooltipTrigger asChild>
-                <Button
-                    variant='ghost'
-                    size='icon'
-                    className={className}
+                <button
+                    type='button'
                     onClick={onClick}
+                    className={cn(
+                        'flex items-center justify-center cursor-pointer hover:bg-accent hover:text-accent-foreground',
+                        className
+                    )}
                 >
                     {children}
-                </Button>
+                </button>
             </TooltipTrigger>
             <TooltipContent side={side} sideOffset={-4}>{label}</TooltipContent>
         </Tooltip>

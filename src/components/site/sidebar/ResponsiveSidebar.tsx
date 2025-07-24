@@ -46,7 +46,7 @@ export default function ResponsiveSidebar({ open, onClose }: Props) {
     return createPortal(
         <div
             className={cn(
-                'fixed inset-0 2xl:hidden',
+                'fixed inset-0 2xl:hidden z-20',
                 open ? 'pointer-events-auto' : 'pointer-events-none'
             )}
         >
