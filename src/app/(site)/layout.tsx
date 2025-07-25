@@ -8,9 +8,7 @@ export default function SiteLayout({ children }: Readonly<{ children: React.Reac
                 <Sidebar />
                 <main className='w-full flex flex-col bg-muted'>
                     <Navbar />
-                    <div className='grow w-full flex flex-col'>
-                        {children}
-                    </div>
+                    {children}
                 </main>
             </div>
         </div>
