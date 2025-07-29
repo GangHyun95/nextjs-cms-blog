@@ -1,7 +1,5 @@
 import { Post } from '@/types/posts';
 import PostCard from './PostCard';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 
 const mockPosts: Post[] = [
     {
@@ -44,48 +42,26 @@ const mockPosts: Post[] = [
         date: '2025.05.01',
         comments: 5,
     },
-    {
-        id: 5,
-        title: 'Cloudinary를 이용한 프로필 업데이트 기능 구현',
-        description: '사용자가 회원가입 시 또는 이후에 프로필 사진을 업로드할 수 있도록 하기 위해 이미지 저장소로 Cloudinary를 연동했습니다. 업로드된 이미지는 Cloudinary에서 자동으로 최적화되어 저장되며, URL만으로 불러와 표시할 수 있어 편리합니다. 실제 서비스에서도 적용해볼 수 있을 만큼 안정적인 구성이었습니다.',
-        imageUrl: 'https://placehold.co/400x200.png',
-        author: 'hyun',
-        authorAvatar: '/temp_profile.jpg',
-        date: '2025.04.29',
-        comments: 9,
-    },
 ];
 
-export default function RecentPosts() {
+export default function PopularPosts() {
     return (
-        <div className='w-content mx-auto py-10'>
+        <div className='w-content mx-auto'>
             <div className='space-y-3 mb-8'>
-                <h3 className='text-4xl font-bold'>✨ 새로운 글들</h3>
+                <h3 className='text-4xl font-bold'>🔥 인기 있는 글들</h3>
                 <p className='text-sm text-muted-foreground'>
-                    최근에 올린 포스트입니다. 관심 가는 주제가 있다면 한 번쯤 읽어보세요.
+                    많은 사람들이 관심 있게 본 포스트들이에요. 놓치지 말고 한 번 읽어보세요!
                 </p>
             </div>
 
             <div className='space-y-8'>
-                <div className='grid grid-cols-1 xl:grid-cols-2 gap-6'>
-                    {mockPosts.slice(0, 2).map((post) => (
+                <div className='grid grid-cols-1 sm:grid-cols-2 gap-6'>
+                    {mockPosts.map((post) => (
                         <PostCard key={post.id} post={post} />
                     ))}
                 </div>
-
-                <div className='grid grid-cols-1 xl:grid-cols-3 gap-6'>
-                    {mockPosts.slice(2, 5).map((post) => (
-                        <PostCard key={post.id} post={post} />
-                    ))}
-                </div>
-
-            </div>
-
-            <div className='flex justify-center mt-8'>
-                <Button size='lg' asChild>
-                    <Link href='/posts'>Show More</Link>
-                </Button>
             </div>
         </div>
     );
 }
+
